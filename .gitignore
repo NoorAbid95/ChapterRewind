@@ -1,6 +1,2 @@
 .env
-.idea
-.venv
-/Users/noorabid/webDev/BookRecap/app/services/openAI_recap.py
-__pycache__/
-*.pyc
+/Users/noorabid/ChapterRewind/(historical) old-flask-version
