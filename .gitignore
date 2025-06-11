@@ -1,2 +1,4 @@
 .env
 /Users/noorabid/ChapterRewind/(historical) old-flask-version
+/backend/app.js
+node_modules/
