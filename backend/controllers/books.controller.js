@@ -2,6 +2,7 @@ import dotenv from "dotenv";
 dotenv.config();
 //import mongoose from "mongoose"
 import axios from "axios";
+import openAI from "openai";
 
 //Home page route
 export const homePage = (req, res) => {
@@ -13,7 +14,7 @@ export const homePage = (req, res) => {
   }
 };
 
-export const searchBook = async (req, res) => {
+export const searchBookYT = async (req, res) => {
   const { title, author } = req.body;
   const searchQuery = `${title} book recap`;
   const yt_API_key = process.env.YT_API_KEY;
@@ -32,5 +33,36 @@ export const searchBook = async (req, res) => {
     res.status(201).json({ success: true, data: videos });
   } catch (error) {
     console.log("Error in loading videos", error.message);
+  }
+};
+
+export const searchOpenAi = async (req, res) => {
+  const { title, author } = req.body;
+  const client = new openAI({ apiKey: process.env.OPENAI_API_KEY });
+
+  try {
+    const completion = await client.chat.completions.create({
+      model: "gpt-4o-mini",
+      messages: [
+        {
+          role: "user",
+          content: `Please provide a synopsis of the book titled "${title}" by ${author}.`,
+        },
+      ],
+      max_tokens: 300, // Limits response
+    });
+
+    const summary = completion.choices[0].message.content;
+    res.status(200).json({
+      success: true,
+      summary,
+    });
+  } catch (error) {
+    console.error("Error from OpenAI:", error.message);
+    res.status(500).json({
+      success: false,
+      message: "Failed to fetch book summary from OpenAI",
+      error: error.message,
+    });
   }
 };
