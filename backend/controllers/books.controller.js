@@ -1,6 +1,5 @@
 import dotenv from "dotenv";
 dotenv.config();
-//import mongoose from "mongoose"
 import axios from "axios";
 import openAI from "openai";
 
@@ -49,7 +48,7 @@ export const searchOpenAi = async (req, res) => {
           content: `Please provide a synopsis of the book titled "${title}" by ${author}.`,
         },
       ],
-      max_tokens: 300, // Limits response
+      max_tokens: 300,
     });
 
     const summary = completion.choices[0].message.content;
