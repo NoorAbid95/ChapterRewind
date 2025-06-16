@@ -9,6 +9,7 @@ const router = express.Router();
 
 router.get("/", homePage);
 
-router.post("/", searchOpenAi);
+router.post("/openai-summary", searchOpenAi);
+router.post("/youtube-recaps", searchBookYT);
 
 export default router;
