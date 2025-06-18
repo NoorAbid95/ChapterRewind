@@ -32,11 +32,10 @@ const HomePage = () => {
 
   return (
     <div>
-      <header>
-        <h2>ChapterRewind</h2>
-      </header>
+      {/* Separator */}
+     
 
-      <div>
+      <div className="flex justify-center items-center w-full">
         <form onSubmit={handleSearch}>
           <label htmlFor="book-title">Book Title</label>
           <input
