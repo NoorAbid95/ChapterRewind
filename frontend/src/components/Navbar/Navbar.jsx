@@ -3,8 +3,10 @@ import React from "react";
 const Navbar = () => {
   return (
     <nav className="flex justify-center  mt-8 sticky">
-      <ul className="flex items-center justify-between gap-10 w-1/2 px-8 py-4  rounded-full bg-black/10">
-        <li className="font-caprasimo font-extrabold text-gray-50 text-lg text-shadow-xs text-shadow-black">ChapterRewind</li>
+      <ul className="flex items-center justify-between gap-10 w-1/2 px-8 py-4  rounded-full">
+        <li className="font-caprasimo font-extrabold text-gray-50 text-lg text-shadow-xs text-shadow-black">
+          <a href="/">ChapterRewind</a>
+        </li>
 
         <ul className="flex space-x-5 text-white text-shadow-2xs">
           <li>Our Story</li>
