@@ -2,7 +2,7 @@ import React from "react";
 
 const Navbar = () => {
   return (
-    <nav className="flex justify-center  mt-8 sticky">
+    <nav className="sticky z-20 flex justify-center  mt-8 ">
       <ul className="flex items-center justify-between gap-10 w-1/2 px-8 py-4  rounded-full">
         <li className="font-caprasimo font-extrabold text-gray-50 text-lg text-shadow-xs text-shadow-black">
           <a href="/">ChapterRewind</a>
