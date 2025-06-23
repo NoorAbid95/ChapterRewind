@@ -65,3 +65,12 @@ export const searchOpenAi = async (req, res) => {
     });
   }
 };
+
+export const searchPage = (req, res) => {
+  try {
+    res.status(201).json({ success: true, message: "Search Page Loaded" });
+  } catch (error) {
+    console.log("Error in loading search page", error.message);
+    res.status(500).json({ success: false, message: "Server Error" });
+  }
+};
