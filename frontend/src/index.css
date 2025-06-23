@@ -1,6 +1,7 @@
 @import "tailwindcss";
 
+html,
 body {
-    background: linear-gradient(#3930a5,#7d57a8, #d297ee, #c3bec7 );
-    min-height: 100vh;
+  overflow-x: hidden;
+  overscroll-behavior: none;
 }

@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import  { useEffect, useRef } from "react";
 import lottie from "lottie-web";
 
 const BowAnimation = () => {
@@ -14,7 +14,7 @@ const BowAnimation = () => {
       path: "https://lottie.host/e6458185-0d6c-476c-af68-8ba1b99b8c75/xDDoiwLplM.json",
     });
 
-    // Optionally start at idle frame
+
     anim.current.goToAndStop(21, true);
 
     return () => anim.current.destroy();
