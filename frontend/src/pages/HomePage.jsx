@@ -66,13 +66,16 @@ const HomePage = () => {
   }, []);
 
   return (
-    <div>
-      <HeroSectionOne />
+    <div className="h-screen overflow-y-scroll snap-y snap-mandatory scroll-smooth">
+      <div className="h-screen snap-start">
+        <HeroSectionOne />
+      </div>
+      
       <div
         id="separator"
-        className="h-[10px] bg-[#585059]/70 flex justify-center items-center z-50"
+        className="h-[10px] bg-gradient-to-r from-[#C69161]/65  via-[#C69161]/80 to-[#444450]/90 backdrop-blur-xs  flex justify-center items-center z-50"
       />
-      <div className="snap-start h-screen relative">
+      <div className="h-screen relative snap-start">
         <HeroSectionTwo />
 
         <div
