@@ -51,9 +51,9 @@ const HeroSectionTwo = () => {
           backgroundImage: `url(${fantasyLandscape})`,
           backgroundColor: "#f3f4f6", // fallback color
         }}
-        initial={{ scale: 1.1 }}
-        animate={isVisible ? { scale: 1 } : { scale: 1.1 }}
-        transition={{ duration: 10 }}
+        initial={{ scale: 1.05 }}
+        animate={isVisible ? { scale: 1 } : { scale: 1.05 }}
+        transition={{ duration: 1 }}
       />
 
       <motion.img
@@ -63,7 +63,7 @@ const HeroSectionTwo = () => {
         className="absolute bottom-0 h left-1/4 transform -translate-x-1/2 w-1/3 z-10"
         initial={{ scale: 1 }}
         animate={isVisible ? { scale: 1.1 } : { scale: 1 }}
-        transition={{ duration: 10 }}
+        transition={{ duration: 1 }}
         onError={handleImageError}
         onLoad={() => console.log("Reader image loaded successfully")}
       />
