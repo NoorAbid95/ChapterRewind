@@ -1,7 +1,12 @@
+@import url("https://fonts.googleapis.com/css2?family=Coiny&family=Uncial+Antiqua&display=swap");
 @import "tailwindcss";
 
 html,
 body {
   overflow-x: hidden;
   overscroll-behavior: none;
+}
+
+#brand-header {
+  font-family: "Uncial Antiqua", system-ui, serif;
 }

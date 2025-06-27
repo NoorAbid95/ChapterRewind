@@ -3,8 +3,9 @@ import { useSummary } from "../context/SummaryCotext";
 import VideoCarousel from "../components/VideoCarousel";
 import BowAnimation from "../components/BowAnimation";
 import SearchHeroSection from "../components/SearchHeroSection";
+import { useEffect } from "react";
 
-const SearchPage = () => {
+const SearchPage = ({ setFadeNavItems }) => {
   const navigate = useNavigate();
   const { summary, videos, formData, setSummary, setVideos, setFormData } =
     useSummary();
@@ -18,6 +19,20 @@ const SearchPage = () => {
       })
       .join(" ");
   }
+  useEffect(() => {
+    const handleScroll = () => {
+      setFadeNavItems(window.scrollY > 0);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+
+    // Initialize state on mount
+    handleScroll();
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, [setFadeNavItems]);
 
   const handleHomeClick = (e) => {
     e.preventDefault();
@@ -28,19 +43,19 @@ const SearchPage = () => {
         setVideos([]);
         setFormData({ title: "", author: "" });
       }, 100);
-    }, 300); // Duration of  bow animation
+    }, 300);
   };
 
   return (
-    <div className="relative min-h-screen overflow-hidden">
-      <SearchHeroSection />
-      <div className="absolute inset-0 z-10  px-4 py-10 mt-10 ">
-        <div className="flex justify-center ">
-          <div
-            id="this"
-            className="w-full  max-w-6xl bg-black/30 rounded-3xl p-8 backdrop-blur-sm"
-          >
-            <div className="p-8 max-h-[80vh] overflow-y-auto">
+    <div className="relative min-h-screen">
+      <div className="fixed inset-0 -z-10">
+        <SearchHeroSection />
+      </div>
+
+      <div className="relative z-10 px-4 py-10 mt-10">
+        <div className="flex justify-center">
+          <div className="w-full max-w-6xl bg-black/30 rounded-3xl p-8 backdrop-blur-sm">
+            <div className="p-8">
               {(summary || videos.length > 0) && (
                 <div className="flex flex-col gap-8 mt-10 w-full max-w-6xl">
                   {summary && (
@@ -55,18 +70,20 @@ const SearchPage = () => {
                   )}
 
                   {videos.length > 0 && (
-                    <div className="text-white w-full flex justify-center mt-8  ">
+                    <div className="text-white w-full flex justify-center mt-8">
                       <VideoCarousel videos={videos} />
                     </div>
                   )}
-
-                  <Link
-                    to="/"
-                    onClick={handleHomeClick}
-                    className="cursor-pointer flex flex-row justify-center"
-                  >
-                    <BowAnimation />
-                  </Link>
+                  <div id="return" className="flex flex-col  items-center mt-6">
+                    <Link
+                      to="/"
+                      title="Homepage"
+                      onClick={handleHomeClick}
+                      className=" w-[70px] h-[70px] cursor-pointer flex flex-row justify-center bg-[#F3E9D2]  rounded-full  hover:shadow-md transition"
+                    >
+                      <BowAnimation />
+                    </Link>
+                  </div>
                 </div>
               )}
             </div>
@@ -78,5 +95,3 @@ const SearchPage = () => {
 };
 
 export default SearchPage;
-
-

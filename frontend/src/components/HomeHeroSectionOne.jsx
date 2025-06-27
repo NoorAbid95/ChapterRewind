@@ -33,7 +33,7 @@ const HeroSectionOne = () => {
     };
   }, []);
 
-
+  // Add error handling for images
   const handleImageError = (e) => {
     console.error("Image failed to load:", e.target.src);
   };
@@ -43,9 +43,8 @@ const HeroSectionOne = () => {
       ref={sectionRef}
       className="relative h-screen overflow-hidden flex flex-items justify-center bg-no-repeat bg-contain"
     >
-
       <motion.div
-        key={`hero1-bg-${animationKey}`} 
+        key={`hero1-bg-${animationKey}`}
         className="absolute inset-0 bg-cover bg-center z-0"
         style={{
           backgroundImage: `url(${skyBg})`,
@@ -56,7 +55,8 @@ const HeroSectionOne = () => {
         transition={{ duration: 1, ease: "linear" }}
       >
         <motion.h1
-          className="flex justify-center items-center w-full h-full text-white text-7xl font-extrabold"
+          id="brand-header"
+          className="flex justify-center items-center mt-[40vh] text-shadow-lg text-white text-5xl md:text-6xl lg:text-8xl font-extrabold"
           initial={{ opacity: 0, y: "100%" }}
           animate={{ opacity: isVisible ? 1 : 0, y: isVisible ? "0%" : "100%" }}
           transition={{ duration: 1 }}
