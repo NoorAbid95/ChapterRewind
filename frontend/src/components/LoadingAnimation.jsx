@@ -29,7 +29,7 @@ const LoadingAnimation = ({ playing = false }) => {
   return (
     <div
       ref={container}
-      className="w-[60px] h-[60px] scale-100 " 
+      className="w-[50px] h-[80px] "
     />
   );
 };

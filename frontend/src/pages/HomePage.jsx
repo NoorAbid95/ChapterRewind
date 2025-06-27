@@ -8,7 +8,7 @@ import LoadingAnimation from "../components/LoadingAnimation";
 import HeroSectionOne from "../components/HomeHeroSectionOne";
 import HeroSectionTwo from "../components/HomeHeroSectionTwo";
 
-const HomePage = () => {
+const HomePage = ({ setFadeNavItems }) => {
   const navigate = useNavigate();
 
   const { summary, setSummary, videos, setVideos, formData, setFormData } =
@@ -47,9 +47,9 @@ const HomePage = () => {
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
-        if (entry.isIntersecting && entry.intersectionRatio > 0.5) {
-          setAnimationKey((prev) => prev + 1);
-        }
+        const isVisible = entry.isIntersecting && entry.intersectionRatio > 0.5;
+        setAnimationKey((prev) => prev + 1);
+        setFadeNavItems(isVisible);
       },
       {
         threshold: 0.5,
@@ -66,16 +66,19 @@ const HomePage = () => {
   }, []);
 
   return (
-    <div className="h-screen overflow-y-scroll snap-y snap-mandatory scroll-smooth">
+    <div
+      id="scroll-container"
+      className="h-screen overflow-y-scroll snap-y snap-mandatory scroll-smooth"
+    >
       <div className="h-screen snap-start">
         <HeroSectionOne />
       </div>
-      
+
       <div
         id="separator"
         className="h-[10px] bg-gradient-to-r from-[#C69161]/65  via-[#C69161]/80 to-[#444450]/90 backdrop-blur-xs  flex justify-center items-center z-50"
       />
-      <div className="h-screen relative snap-start">
+      <div className="h-screen relative snap-start" id="hero-two">
         <HeroSectionTwo />
 
         <div
@@ -85,49 +88,57 @@ const HomePage = () => {
         >
           <motion.div
             key={animationKey}
-            className="w-[470px] h-[100px] flex items-center justify-evenly gap-4 
-               px-6 py-4 rounded-full bg-gradient-to-r from-[#5d5d5d]/40 to-[#bebebe]/40 
-               shadow-md shadow-[#FAF4E7]/50
-               transition-all duration-700 backdrop-blur-md"
-            initial={{
-              scale: 1,
-              opacity: 0,
-            }}
-            animate={{
-              scale: 1,
-              opacity: 1,
-            }}
-            transition={{
-              duration: 1.1,
-              ease: "easeOut",
-            }}
+            className="w-[450px] md:w-[470px]  py-6 rounded-xl mb-30
+            bg-gradient-to-r from-[#5d5d5d]/40 to-[#FFFFE4]/40 
+            shadow-xs shadow-[#FAF4E7]/50 backdrop-blur-sm
+            flex flex-col items-center gap-4 transition-all duration-700"
+            initial={{ scale: 1, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            transition={{ duration: 1.1, ease: "easeOut" }}
           >
-            <form onSubmit={handleSearch} className="flex items-center gap-4">
-              <input
-                type="text"
-                placeholder="Title"
-                name="title"
-                value={formData.title}
-                onChange={handleChange}
-                required
-                className="bg-transparent placeholder-white text-white border-b border-white/40 
-                   focus:outline-none text-md w-[140px] "
-              />
-              <input
-                type="text"
-                placeholder="Author"
-                name="author"
-                value={formData.author}
-                onChange={handleChange}
-                className="bg-transparent placeholder-white text-white border-b border-white/40
-                   focus:outline-none text-md w-[140px] "
-              />
-              <div className="flex items-center justify-center h-[40px]">
+            <p className="text-white font-semibold text-center py-4 mb-9">
+              Search the Book Title You Want to Recap
+            </p>
+
+            {/* Entire form - inputs above, button below */}
+            <form
+              onSubmit={handleSearch}
+              className="flex flex-col items-center gap-4 w-full"
+            >
+              <div className="flex gap-4">
+                <input
+                  id="title"
+                  type="text"
+                  placeholder="Title"
+                  name="title"
+                  value={formData.title}
+                  onChange={handleChange}
+                  required
+                  className="bg-transparent placeholder-white text-white border-b border-white/40 
+                  focus:outline-none text-center text-md w-[140px]"
+                />
+                <input
+                  id="author"
+                  type="text"
+                  placeholder="Author"
+                  name="author"
+                  value={formData.author}
+                  onChange={handleChange}
+                  className="bg-transparent placeholder-white text-white border-b border-white/40 
+                  focus:outline-none text-md text-center w-[140px]"
+                />
+              </div>
+
+              <div className="flex flex-col items-center mt-12">
                 <button
                   type="submit"
-                  className="p-0 border-none focus:outline-none rounded-full bg-[#FEFEE7]/40 
-                     hover:bg-[#D4C7C7]/40 cursor-pointer"
+                  title="Search"
+                  className="flex flex-col items-center justify-center border-none focus:outline-none rounded-full bg-[#FDFDF6]/90
+                   hover:scale-102 active:scale-95 shadow-md shadow-[#3B3648] cursor-pointer w-[70px] h-[70px] "
                 >
+                  <span className="text-black/70 mt-[12px] text-[10px] leading-none">
+                    SEARCH
+                  </span>
                   <LoadingAnimation playing={loading} />
                 </button>
               </div>
