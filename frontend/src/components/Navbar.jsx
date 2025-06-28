@@ -1,9 +1,10 @@
 import BookshelfIcon from "../assets/bookshelf-nav.svg?react";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate, useLocation, Link } from "react-router-dom";
 
 const Navbar = ({ fadeNavItems }) => {
   const location = useLocation();
   const navigate = useNavigate();
+  const isOurStory = location.pathname === "/ourStory";
 
   const handleBookshelfClick = () => {
     if (location.pathname === "/") {
@@ -23,7 +24,11 @@ const Navbar = ({ fadeNavItems }) => {
           onClick={handleBookshelfClick}
           className="cursor-pointer pointer-events-auto"
         >
-          <BookshelfIcon className="h-13 w-13 stroke-white stroke-[2] hover:opacity-80 transition" />
+          <BookshelfIcon
+            className={`h-13 w-13 stroke-[2] hover:opacity-80 transition ${
+              isOurStory ? "text-black" : "stroke-white"
+            }`}
+          />
         </button>
       </div>
 
@@ -34,11 +39,13 @@ const Navbar = ({ fadeNavItems }) => {
             : "opacity-100 pointer-events-auto"
         }`}
       >
-        <ul className="flex space-x-7 text-white text-shadow-sm text-sm font-bold">
-          <li>OUR STORY</li>
-          <li>LOGIN</li>
-          <li>SIGNUP</li>
-        </ul>
+        {!isOurStory && (
+          <ul className="flex space-x-7 text-white text-shadow-sm text-sm font-bold">
+            <Link to={"/ourStory"}>
+              <li>OUR STORY</li>
+            </Link>
+          </ul>
+        )}
       </div>
     </nav>
   );

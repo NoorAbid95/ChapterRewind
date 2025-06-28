@@ -1,6 +1,5 @@
 import { useState, useEffect, useRef } from "react";
 import axios from "axios";
-import "./HomePage.css";
 import { useNavigate } from "react-router-dom";
 import { useSummary } from "../context/SummaryCotext";
 import { motion } from "framer-motion";
@@ -68,7 +67,7 @@ const HomePage = ({ setFadeNavItems }) => {
   return (
     <div
       id="scroll-container"
-      className="h-screen overflow-y-scroll snap-y snap-mandatory scroll-smooth"
+      className=" h-screen overflow-y-scroll snap-y snap-mandatory scroll-smooth"
     >
       <div className="h-screen snap-start">
         <HeroSectionOne />
@@ -88,10 +87,10 @@ const HomePage = ({ setFadeNavItems }) => {
         >
           <motion.div
             key={animationKey}
-            className="w-[450px] md:w-[470px]  py-6 rounded-xl mb-30
+            className="w-[450px] md:w-[470px]  py-6 px-6 sm:px-10 mt-6 sm:mt-10 rounded-xl mb-30
             bg-gradient-to-r from-[#5d5d5d]/40 to-[#FFFFE4]/40 
             shadow-xs shadow-[#FAF4E7]/50 backdrop-blur-sm
-            flex flex-col items-center gap-4 transition-all duration-700"
+            flex flex-col items-center gap-4 transition-all duration-700 "
             initial={{ scale: 1, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             transition={{ duration: 1.1, ease: "easeOut" }}
