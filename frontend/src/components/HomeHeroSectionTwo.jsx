@@ -13,13 +13,13 @@ const HeroSectionTwo = () => {
       ([entry]) => {
         if (entry.isIntersecting && entry.intersectionRatio > 0.5) {
           setIsVisible(true);
-          setAnimationKey((prev) => prev + 1); // Force re-render to restart animations
+          setAnimationKey((prev) => prev + 1);
         } else {
           setIsVisible(false);
         }
       },
       {
-        threshold: 0.5, // Trigger when 50% of the section is visible
+        threshold: 0.5,
       }
     );
 
@@ -34,7 +34,6 @@ const HeroSectionTwo = () => {
     };
   }, []);
 
-
   const handleImageError = (e) => {
     console.error("Image failed to load:", e.target.src);
   };
@@ -45,11 +44,11 @@ const HeroSectionTwo = () => {
       className="relative h-screen overflow-hidden flex flex-items justify-center bg-no-repeat bg-contain"
     >
       <motion.div
-        key={`hero2-bg-${animationKey}`} 
+        key={`hero2-bg-${animationKey}`}
         className="absolute inset-0 bg-cover bg-center z-0"
         style={{
           backgroundImage: `url(${fantasyLandscape})`,
-          backgroundColor: "#f3f4f6", // fallback color
+          backgroundColor: "#f3f4f6",
         }}
         initial={{ scale: 1.05 }}
         animate={isVisible ? { scale: 1 } : { scale: 1.05 }}
@@ -57,10 +56,12 @@ const HeroSectionTwo = () => {
       />
 
       <motion.img
-        key={`hero2-subject-${animationKey}`} 
+        key={`hero2-subject-${animationKey}`}
         src={readerSubject}
         alt="Reader"
-        className="absolute bottom-0 h left-1/4 transform -translate-x-1/2 w-1/3 z-10"
+        className="absolute bottom-0 left-1/4 transform -translate-x-1/2 z-10
+                   w-2/3 sm:w-1/2 md:w-2/5 lg:w-1/3 xl:w-1/4
+                   max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg"
         initial={{ scale: 1 }}
         animate={isVisible ? { scale: 1.1 } : { scale: 1 }}
         transition={{ duration: 1 }}
