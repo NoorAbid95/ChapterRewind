@@ -42,3 +42,30 @@ export const signup = async (req, res) => {
     sendError(res);
   }
 };
+
+export const login = async (req, res) => {
+  const { email, password } = req.body;
+
+  try {
+    const user = await User.findOne({ email });
+
+    if (!user) {
+      return sendError(res, "Invalid Credentials", 400);
+    }
+
+    const isPasswordCorrect = await bcrypt.compare(password, user.password);
+    if (!isPasswordCorrect) {
+      return sendError(res, "Invalid Credentials", 400);
+    }
+
+    generateToken(user._id, res);
+    sendSuccess(res, {
+      _id: user._id,
+      fullName: user.fullName,
+      email: user.email,
+    });
+  } catch (error) {
+    console.log("Error in Login Controller", error.message);
+    sendError(res);
+  }
+};
