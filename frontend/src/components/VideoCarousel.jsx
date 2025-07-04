@@ -97,7 +97,7 @@ const VideoCarousel = ({ videos }) => {
               onClick={() => setCurrentIndex(index)}
               className={`mt-3 cursor-pointer text-2xl text-shadow ${
                 index === currentIndex
-                  ? "text-amber-100 scale-200"
+                  ? "text-amber-100w scale-200"
                   : "text-gray-300 hover:scale-120"
               }`}
             />

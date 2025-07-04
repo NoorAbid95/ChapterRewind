@@ -1,15 +1,16 @@
+import axios from "axios";
+import { sendSuccess, sendError } from "../utils/sendResponse.js";
+import openAI from "openai";
 import dotenv from "dotenv";
 dotenv.config();
-import axios from "axios";
-import openAI from "openai";
 
 //Home page route
 export const homePage = (req, res) => {
   try {
-    res.status(201).json({ success: true, message: "Home Page Loaded" });
+    sendSuccess(res, {}, "Homepage Loaded Successfully");
   } catch (error) {
     console.log("Error in loading home page", error.message);
-    res.status(500).json({ success: false, message: "Server Error" });
+    sendError(res);
   }
 };
 
@@ -29,9 +30,10 @@ export const searchBookYT = async (req, res) => {
   try {
     const response = await axios.request(options);
     const videos = response.data.items;
-    res.status(201).json({ success: true, data: videos });
+    sendSuccess(res, videos, "Videos fetched", 201);
   } catch (error) {
     console.log("Error in loading videos", error.message);
+    sendError(res);
   }
 };
 
@@ -52,34 +54,35 @@ export const searchOpenAi = async (req, res) => {
     });
 
     const summary = completion.choices[0].message.content;
-    res.status(200).json({
-      success: true,
-      summary,
-    });
+    sendSuccess(res, summary, "Summary retrieved");
   } catch (error) {
     console.error("Error from OpenAI:", error.message);
-    res.status(500).json({
-      success: false,
-      message: "Failed to fetch book summary from OpenAI",
-      error: error.message,
-    });
+    sendError(res);
   }
 };
 
 export const searchPage = (req, res) => {
   try {
-    res.status(201).json({ success: true, message: "Search Page Loaded" });
+    sendSuccess(res, {}, "Search Page Loaded", 201);
   } catch (error) {
     console.log("Error in loading search page", error.message);
-    res.status(500).json({ success: false, message: "Server Error" });
+    sendError(res);
   }
 };
 
-export const ourStory = (req, res) =>{
-   try {
-    res.status(201).json({ success: true, message: "Our Story Page Loaded" });
+export const ourStory = (req, res) => {
+  try {
+    sendSuccess(res, {}, "Our Story Page Loaded", 201);
   } catch (error) {
     console.log("Error in loading search page", error.message);
-    res.status(500).json({ success: false, message: "Server Error" });
+    sendError(res);
   }
-}
+};
+
+export default {
+  homePage,
+  searchBookYT,
+  searchOpenAi,
+  searchPage,
+  ourStory,
+};
