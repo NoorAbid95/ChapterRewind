@@ -35,19 +35,22 @@ const OurStoryPage = () => {
           className="w-full max-w-3xl bg-[#DECDAE]/40 rounded-3xl p-8 backdrop-blur-sm"
         >
           <div className="max-w-2xl  mx-auto text-center space-y-6 text-shadow-gray-500  md:text-base leading-relaxed">
-            <h3 id="brand-header">The Story of ChapterRewind</h3>
-            <p className="mt-6">
-              <span className=" font-medium">ChapterRewind</span> was born from
+            <h3 id="brand-header" className="text-2xl font-semibold">Our Story</h3>
+            <div className="text-lg">
+              <p className="mt-6">
+              <span className=" font-medium text-lg">ChapterRewind</span> was born from
               a reader’s dilemma: you pick up an epic book series, fall in love
               with its world & characters, but life or the publishing cycle (or
               just a really long reading break...) gets in the way. Months or
               even years pass, and when the next book finally arrives, that
               once-vivid world feels distant and unfamiliar.
             </p>
+            <br />
             <p>
               When you finally return, you're lost. Names, plots, politics,
               magic systems are all a blur.
             </p>
+            <br />
             <p>
               This space was built for readers like us. A place to{" "}
               <span className="italic">refresh your memory</span>,{" "}
@@ -57,6 +60,8 @@ const OurStoryPage = () => {
               <span className="font-medium">ChapterRewind</span> helps you pick
               up right where you left off—without starting from page one again.
             </p>
+            </div>
+            
 
             <button onClick={handleHomeClick} className="mt-6 p-4  ">
               <img

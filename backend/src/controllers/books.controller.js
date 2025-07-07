@@ -54,7 +54,7 @@ export const searchOpenAi = async (req, res) => {
     });
 
     const summary = completion.choices[0].message.content;
-    sendSuccess(res, summary, "Summary retrieved");
+    sendSuccess(res, { summary }, "Summary retrieved");
   } catch (error) {
     console.error("Error from OpenAI:", error.message);
     sendError(res);
