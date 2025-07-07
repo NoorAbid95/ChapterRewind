@@ -32,7 +32,7 @@ const HomePage = ({ setFadeNavItems }) => {
         axios.post("http://localhost:3000/api/books/youtube-recaps", formData),
       ]);
 
-      setSummary(summaryRes.data.summary);
+      setSummary(summaryRes.data.data.summary);
       setVideos(videoRes.data.data);
 
       navigate("/search");
@@ -62,6 +62,10 @@ const HomePage = ({ setFadeNavItems }) => {
         observer.unobserve(containerRef.current);
       }
     };
+  }, []);
+
+  useEffect(() => {
+    setFormData({ title: "", author: "" });
   }, []);
 
   return (
