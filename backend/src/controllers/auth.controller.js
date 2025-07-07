@@ -50,12 +50,12 @@ export const login = async (req, res) => {
     const user = await User.findOne({ email });
 
     if (!user) {
-      return sendError(res, "Invalid Credentials", 400);
+      return sendError(res, "Invalid Credentials. Please Try Again.", 400);
     }
 
     const isPasswordCorrect = await bcrypt.compare(password, user.password);
     if (!isPasswordCorrect) {
-      return sendError(res, "Invalid Credentials", 400);
+      return sendError(res, "Invalid Credentials. Please Try Again.", 400);
     }
 
     generateToken(user._id, res);
