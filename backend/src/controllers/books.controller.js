@@ -2,6 +2,7 @@ import axios from "axios";
 import { sendSuccess, sendError } from "../utils/sendResponse.js";
 import openAI from "openai";
 import dotenv from "dotenv";
+import User from "../models/user.models.js";
 dotenv.config();
 
 //Home page route
@@ -16,23 +17,25 @@ export const homePage = (req, res) => {
 
 export const searchBookYT = async (req, res) => {
   const { title, author } = req.body;
-  const searchQuery = `${title} book recap`;
+  const searchQuery = `${title} by ${author} book recap`;
   const yt_API_key = process.env.YT_API_KEY;
-  const options = {
-    method: "GET",
-    url: "https://www.googleapis.com/youtube/v3/search",
-    params: {
-      part: "snippet",
-      q: searchQuery,
-      key: yt_API_key,
-    },
-  };
+
   try {
-    const response = await axios.request(options);
-    const videos = response.data.items;
-    sendSuccess(res, videos, "Videos fetched", 201);
+    const response = await axios.get(
+      "https://www.googleapis.com/youtube/v3/search",
+      {
+        params: {
+          part: "snippet",
+          q: searchQuery,
+          key: yt_API_key,
+          maxResults: 5,
+          type: "video",
+        },
+      }
+    );
+    sendSuccess(res, response.data.items, 200);
   } catch (error) {
-    console.log("Error in loading videos", error.message);
+    console.error("YouTube API error:", error.message);
     sendError(res);
   }
 };
@@ -79,10 +82,56 @@ export const ourStory = (req, res) => {
   }
 };
 
+export const addBookToLibrary = async (req, res) => {
+  const { title, author, summary } = req.body;
+  
+  try {
+    const userId = req.user._id;
+    const coverResponse = await axios.get(
+      "https://bookcover.longitood.com/bookcover",
+      {
+        params: { book_title: title, author_name: author },
+      }
+    );
+    const coverUrl = coverResponse.data.url;
+
+    // Add book to user library
+    const updatedUser = await User.findByIdAndUpdate(
+      userId,
+      {
+        $push: {
+          library: { title, author, coverUrl, summary, notes: "" },
+        },
+      },
+      { new: true }
+    );
+
+    sendSuccess(res, updatedUser.library, "Book added to library", 201);
+  } catch (error) {
+    console.error("Error adding book to library", error);
+    sendError(res);
+  }
+};
+
+export const getLibrary = async (req, res) =>{
+  try {
+    const user = await User.findById(req.user.id)
+    if(!user){
+      return sendError(res, "User not found", 404)
+    }
+    sendSuccess(res, user.library, 200)
+  } catch (error) {
+    console.log("Error in fetching library:", error.message);
+    sendError(res)
+  }
+}
+
 export default {
   homePage,
   searchBookYT,
   searchOpenAi,
   searchPage,
   ourStory,
+  addBookToLibrary,
+  getLibrary
 };

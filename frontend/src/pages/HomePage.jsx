@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { useSummary } from "../context/SummaryCotext";
+import useSummaryStore from "../store/useSummaryStore";
 import { motion } from "framer-motion";
 import LoadingAnimation from "../components/LoadingAnimation";
 import HeroSectionOne from "../components/HomeHeroSectionOne";
@@ -11,7 +11,7 @@ const HomePage = ({ setFadeNavItems }) => {
   const navigate = useNavigate();
 
   const { summary, setSummary, videos, setVideos, formData, setFormData } =
-    useSummary();
+    useSummaryStore();
 
   const [loading, setLoading] = useState(false);
 
@@ -103,7 +103,6 @@ const HomePage = ({ setFadeNavItems }) => {
               Search the Book Title You Want to Recap
             </p>
 
-            {/* Entire form - inputs above, button below */}
             <form
               onSubmit={handleSearch}
               className="flex flex-col items-center gap-4 w-full"
@@ -127,6 +126,7 @@ const HomePage = ({ setFadeNavItems }) => {
                   name="author"
                   value={formData.author}
                   onChange={handleChange}
+                  required
                   className="bg-transparent placeholder-white text-white border-b border-white/40 
                   focus:outline-none text-md text-center w-[140px]"
                 />

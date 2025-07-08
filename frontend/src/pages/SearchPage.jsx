@@ -1,14 +1,16 @@
 import { useNavigate, Link } from "react-router-dom";
-import { useSummary } from "../context/SummaryCotext";
+import useSummaryStore from "../store/useSummaryStore";
 import VideoCarousel from "../components/VideoCarousel";
 import BowAnimation from "../components/BowAnimation";
 import SearchHeroSection from "../components/SearchHeroSection";
 import { useEffect } from "react";
+import { sendError } from "../../../backend/src/utils/sendResponse";
+import axios from "axios";
 
 const SearchPage = ({ setFadeNavItems }) => {
   const navigate = useNavigate();
-  const { summary, videos, formData, setSummary, setVideos, setFormData } =
-    useSummary();
+  const { summary, setSummary, videos, setVideos, formData, setFormData } =
+    useSummaryStore();
 
   function toPascalCase(str) {
     return str
@@ -26,13 +28,31 @@ const SearchPage = ({ setFadeNavItems }) => {
 
     window.addEventListener("scroll", handleScroll);
 
-    // Initialize state on mount
     handleScroll();
 
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
   }, [setFadeNavItems]);
+
+  const handleAddToLibrary = async () => {
+    try {
+      await axios.post(
+        "http://localhost:3000/api/books/mylibrary",
+        {
+          title: formData.title,
+          author: formData.author,
+          summary,
+          videos,
+        },
+        { withCredentials: true }
+      );
+      console.log("Added to lib");
+    } catch (error) {
+      console.log("Error sending to library", error.message);
+      sendError(res);
+    }
+  };
 
   const handleHomeClick = (e) => {
     e.preventDefault();
@@ -74,6 +94,14 @@ const SearchPage = ({ setFadeNavItems }) => {
                       <VideoCarousel videos={videos} />
                     </div>
                   )}
+                  <div>
+                    <button
+                      className="btn-primary border text-black bg-amber-50 cursor-pointer"
+                      onClick={handleAddToLibrary}
+                    >
+                      Add to my library
+                    </button>
+                  </div>
                   <div id="return" className="flex flex-col  items-center mt-6">
                     <Link
                       to="/"
