@@ -6,6 +6,7 @@ import { useState } from "react";
 import OurStoryPage from "./pages/OurStoryPage";
 import SignupPage from "./pages/SignupPage";
 import LoginPage from "./pages/LoginPage";
+import MyLibraryPage from "./pages/MyLibraryPage";
 function App() {
   const [fadeNavItems, setFadeNavItems] = useState(false);
   return (
@@ -24,6 +25,7 @@ function App() {
 
         <Route path="/signup" element={<SignupPage />} />
         <Route path="/login" element={<LoginPage />} />
+        <Route path="/mylibrary" element={<MyLibraryPage />} />
       </Routes>
     </>
   );
