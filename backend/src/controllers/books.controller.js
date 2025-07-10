@@ -3,6 +3,8 @@ import { sendSuccess, sendError } from "../utils/sendResponse.js";
 import openAI from "openai";
 import dotenv from "dotenv";
 import User from "../models/user.models.js";
+import { update } from "three/examples/jsm/libs/tween.module.js";
+import { equal } from "three/tsl";
 dotenv.config();
 
 //Home page route
@@ -84,7 +86,7 @@ export const ourStory = (req, res) => {
 
 export const addBookToLibrary = async (req, res) => {
   const { title, author, summary } = req.body;
-  
+
   try {
     const userId = req.user._id;
     const coverResponse = await axios.get(
@@ -113,18 +115,110 @@ export const addBookToLibrary = async (req, res) => {
   }
 };
 
-export const getLibrary = async (req, res) =>{
+export const deleteBookFromLibrary = async (req, res) => {
   try {
-    const user = await User.findById(req.user.id)
-    if(!user){
-      return sendError(res, "User not found", 404)
+    const userId = req.user.id;
+    const bookId = req.params.bookId;
+
+    const user = await User.findById(userId);
+    if (!user) return sendError(res, "User not found", 404);
+
+    const initialLength = user.library.length;
+
+    user.library = user.library.filter((b) => b._id.toString() !== bookId);
+
+    if (user.library.length === initialLength) {
+      return sendError(res, "Book not found in user's library", 404);
     }
-    sendSuccess(res, user.library, 200)
+
+    await user.save();
+
+    return res.status(200).json({
+      success: true,
+      message: "Book successfully removed from library",
+    });
+  } catch (error) {
+    console.error("Error deleting book from library:", error);
+    return sendError(res, "Server error", 500);
+  }
+};
+
+export const getLibrary = async (req, res) => {
+  try {
+    const user = await User.findById(req.user._id);
+    if (!user) {
+      return sendError(res, "User not found", 404);
+    }
+    sendSuccess(res, user.library, 200);
   } catch (error) {
     console.log("Error in fetching library:", error.message);
-    sendError(res)
+    sendError(res);
   }
-}
+};
+
+export const getNote = async (req, res) => {
+  try {
+    console.log("User id:", req.user._id);
+    console.log("Book id:", req.params.bookId);
+    const user = await User.findById(req.user._id);
+    const book = user.library.id(req.params.bookId);
+    if (!book) return sendError(res, "Book not found", 404);
+    sendSuccess(res, book.notes || "", 200);
+  } catch (error) {
+    console.log("Error in getNotes controller", error.message);
+    sendError(res);
+  }
+};
+
+export const createNote = async (req, res) => {
+  try {
+    const user = await User.findById(req.user._id);
+    const book = user.library.id(req.params.bookId);
+
+    if (!book) return sendError(res, "Book not found", 404);
+
+    if (book.notes && book.notes.trim() !== "") {
+      return sendError(res, "Book already exists", 409);
+    }
+
+    book.notes = req.body.note || "";
+    await user.save();
+    sendSuccess(res, { note: book.notes }, "Note Created", 201);
+  } catch (error) {
+    console.log("Error in createNote controller", error.message);
+    sendError(res);
+  }
+};
+
+export const updateNote = async (req, res) => {
+  try {
+    const user = await User.findById(req.user._id);
+    const book = user.library.id(req.params.bookId);
+
+    if (!book) return sendError(res, "Book not found", 404);
+    if (!book.notes) return sendError(res, "No book notes to update", 404);
+    book.notes = req.body.note || "";
+    await user.save();
+    sendSuccess(res, "Notes Updated", 200);
+  } catch (error) {
+    console.log("Error in updateNotes controller", error.message);
+    sendError(res);
+  }
+};
+
+export const deleteNote = async (req, res) => {
+  try {
+    const user = await User.findById(req.user._id);
+    const book = user.library.id(req.params.bookId);
+    if (!book) return sendError(res, "Book not found", 404);
+    book.notes = "";
+    await user.save();
+    sendSuccess(res, "Notes deleted", 200);
+  } catch (error) {
+    console.log("Error in delete note controller: ", error.message);
+    sendError(res);
+  }
+};
 
 export default {
   homePage,
@@ -133,5 +227,8 @@ export default {
   searchPage,
   ourStory,
   addBookToLibrary,
-  getLibrary
+  getLibrary,
+  getNote,
+  updateNote,
+  deleteNote,
 };
