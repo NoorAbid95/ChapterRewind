@@ -12,6 +12,9 @@ const SearchPage = ({ setFadeNavItems }) => {
   const { summary, setSummary, videos, setVideos, formData, setFormData } =
     useSummaryStore();
 
+  const noSearchData =
+    (!summary || summary.length == 0) && (!videos || videos.length == 0);
+
   function toPascalCase(str) {
     return str
       .split(/[\s_-]+/)
@@ -74,9 +77,33 @@ const SearchPage = ({ setFadeNavItems }) => {
 
       <div className="relative z-10 px-4 py-10 mt-10">
         <div className="flex justify-center">
-          <div className="w-full max-w-6xl bg-black/30 rounded-3xl p-8 backdrop-blur-sm">
+          <div className="w-auto max-w-6xl bg-black/30 rounded-3xl p-8 backdrop-blur-sm">
             <div className="p-8">
-              {(summary || videos.length > 0) && (
+              {noSearchData ? (
+                <div className="text-white text-center">
+                  <p className="text-4xl mb-6">Nothing to recap just yet.</p>
+                  <p className="text-xs text-gray-400">
+                    Go back to home page to search for a book.
+                  </p>
+                  <div className="flex justify-center">
+                    <div
+                      id="return"
+                      className="flex flex-col  items-center mt-20"
+                    >
+                      <span className="text-xs font-extralight">HOME</span>
+
+                      <Link
+                        to="/"
+                        title="Homepage"
+                        onClick={handleHomeClick}
+                        className=" w-[70px] h-[70px] cursor-pointer flex flex-row justify-center bg-[#F3E9D2]  rounded-full  hover:shadow-md transition mt-1"
+                      >
+                        <BowAnimation />
+                      </Link>
+                    </div>
+                  </div>
+                </div>
+              ) : (
                 <div className="flex flex-col gap-8 mt-10 w-full max-w-6xl">
                   {summary && (
                     <div className="text-white">
