@@ -2,13 +2,34 @@ import { Route, Routes } from "react-router-dom";
 import HomePage from "./pages/HomePage";
 import Navbar from "./components/Navbar";
 import SearchPage from "./pages/SearchPage";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import OurStoryPage from "./pages/OurStoryPage";
 import SignupPage from "./pages/SignupPage";
 import LoginPage from "./pages/LoginPage";
 import MyLibraryPage from "./pages/MyLibraryPage";
+import useAuthStore from "./store/useAuthStore";
+
 function App() {
   const [fadeNavItems, setFadeNavItems] = useState(false);
+  const { setUser, clearUser, setLoading } = useAuthStore();
+
+  useEffect(() => {
+    const checkAuth = async () => {
+      setLoading(true);
+      try {
+        const res = await axios.get("http://localhost:3000/api/auth/check", {
+          withCredentials: true,
+        });
+        setUser(res.data.user);
+      } catch (error) {
+        clearUser();
+      } finally {
+        setLoading(false);
+      }
+    };
+    checkAuth();
+  }, []);
+  console.log("Auth store user:", useAuthStore.getState().user);
   return (
     <>
       <Navbar fadeNavItems={fadeNavItems} />
