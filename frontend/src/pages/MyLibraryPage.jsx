@@ -1,12 +1,16 @@
 import MyLibraryHero from "../components/MyLibraryHero";
 import BookDetailModal from "../components/BookDetailModal";
 import { useState, useEffect } from "react";
+import castleHome from "../assets/castle-home.svg";
 import axios from "axios";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import useAuthStore from "../store/useAuthStore";
 
 const MyLibraryPage = () => {
   const [library, setLibrary] = useState([]);
   const [selectedBook, setSelectedBook] = useState(null);
+  const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
+  const navigate = useNavigate();
 
   const fetchLibrary = async () => {
     try {
@@ -24,8 +28,10 @@ const MyLibraryPage = () => {
   };
 
   useEffect(() => {
-    fetchLibrary();
-  }, []);
+    if (isAuthenticated) {
+      fetchLibrary();
+    }
+  }, [isAuthenticated]);
 
   return (
     <div className="relative min-h-screen">
@@ -36,20 +42,55 @@ const MyLibraryPage = () => {
       <div className="relative z-10 px-4 py-10 mt-10">
         <div className="flex justify-center">
           <div className="w-auto max-w-6xl bg-black/30 rounded-3xl p-8 backdrop-blur-sm">
-            <div className="w-full flex p-2 gap-x-15 ">
-              {library.map((book) => (
-                <img
-                  key={book._id}
-                  src={book.coverUrl}
-                  alt={`${book.title} cover`}
-                  className="h-35 w-28 rounded-sm cursor-pointer hover:scale-103 active:scale-97"
-                  onClick={() => setSelectedBook(book)}
-                />
-              ))}
-            </div>
-            <div className="flex justify-center mt-4 font-semibold text-white hover:underline">
-              <Link to={"/"}>Recap another book?</Link>
-            </div>
+            {!isAuthenticated ? (
+              <div className="text-center text-white space-y-4">
+                <p className="text-xl font-medium">
+                  Create an account or login to save books to your library.
+                </p>
+                <div className="mt-6 p-6 flex justify-center gap-4">
+                  <button
+                    className="px-4 bg-[#46281E]/80 text-white rounded-full hover:bg-[#BC7647]/80 hover:scale-102 active:scale-97 transition cursor-pointer"
+                    onClick={() => navigate("/login")}
+                  >
+                    Login
+                  </button>
+                  <button
+                    className="px-4 py-2 bg-[#46281E]/80 text-white rounded-full hover:bg-[#BC7647]/80 hover:scale-102 active:scale-97 transition cursor-pointer"
+                    onClick={() => navigate("/signup")}
+                  >
+                    Sign Up
+                  </button>
+                </div>
+                <div>
+                  <Link to={"/"}>
+                    <span className="text-xs font-extralight">HOME</span>
+                    <img
+                      src={castleHome}
+                      alt="Home button"
+                      title="Homepage"
+                      className="w-10 h-10 mx-auto opacity-80 hover:opacity-70 hover:scale-103 active:scale-97 transition  cursor-pointer  "
+                    />
+                  </Link>
+                </div>
+              </div>
+            ) : (
+              <>
+                <div className="w-full flex p-2 gap-x-15 ">
+                  {library.map((book) => (
+                    <img
+                      key={book._id}
+                      src={book.coverUrl}
+                      alt={`${book.title} cover`}
+                      className="h-35 w-28 rounded-sm cursor-pointer hover:scale-103 active:scale-97"
+                      onClick={() => setSelectedBook(book)}
+                    />
+                  ))}
+                </div>
+                <div className="flex justify-center mt-4 font-semibold text-white hover:underline">
+                  <Link to={"/"}>Recap another book?</Link>
+                </div>
+              </>
+            )}
           </div>
         </div>
       </div>
