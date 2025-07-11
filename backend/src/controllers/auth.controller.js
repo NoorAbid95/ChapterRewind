@@ -69,3 +69,28 @@ export const login = async (req, res) => {
     sendError(res);
   }
 };
+
+export const authCheck = (req, res) => {
+  try {
+    const user = req.user;
+    if (!user) return sendError(res, "Unauthorized", 401);
+    sendSuccess(res, user, "User authenticated");
+  } catch (error) {
+    console.log("Error in authCheck controller", error.message);
+    sendError(res);
+  }
+};
+
+export const logout = (req, res) => {
+  try {
+    res.cookie("jwt", "", {
+      httpOnly: true,
+      epxires: new Date(0),
+    });
+
+    return sendSuccess(res, "Logged out successfully", 200);
+  } catch (error) {
+    console.log("Error in logout controller", error.message);
+    sendError(res);
+  }
+};

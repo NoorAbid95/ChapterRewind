@@ -1,13 +1,13 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
-import { motion, spring } from "framer-motion";
-import SignupHero from "../components/SignupHero";
+import { motion } from "framer-motion";
 import { EyeOff, Eye, CheckCircle } from "lucide-react";
-import { div } from "three/tsl";
 import LoginHero from "../components/LoginHero";
+import useAuthStore from "../store/useAuthStore.js";
 
 const LoginPage = () => {
+  const setUser = useAuthStore((state) => state.setUser);
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
@@ -53,9 +53,16 @@ const LoginPage = () => {
     }
 
     try {
-      await axios.post("http://localhost:3000/api/auth/login", formData, {
-        withCredentials: true,
-      });
+      const res = await axios.post(
+        "http://localhost:3000/api/auth/login",
+        formData,
+        {
+          withCredentials: true,
+        }
+      );
+
+      setUser(res.data.data);
+      console.log("res:", res.data.data);
       setLoginSuccess(true);
       setLoginError("");
     } catch (err) {
@@ -71,7 +78,7 @@ const LoginPage = () => {
   return (
     <div className="relative min-h-screen">
       <div className="fixed inset-0 -z-10">
-        <LoginHero/>
+        <LoginHero />
       </div>
 
       <div

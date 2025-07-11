@@ -1,7 +1,11 @@
 import BookshelfIcon from "../assets/bookshelf-nav.svg?react";
 import { useNavigate, useLocation, Link } from "react-router-dom";
+import useAuthStore from "../store/useAuthStore.js";
+import axios from "axios";
 
 const Navbar = ({ fadeNavItems }) => {
+  const { user, clearUser } = useAuthStore();
+  console.log("Auth store user nav:", user);
   const location = useLocation();
   const navigate = useNavigate();
   const isOurStory = location.pathname === "/ourStory";
@@ -14,6 +18,20 @@ const Navbar = ({ fadeNavItems }) => {
       }
     } else {
       navigate("/");
+    }
+  };
+
+  const handleLogout = async () => {
+    try {
+      await axios.post(
+        "http://localhost:3000/api/auth/logout",
+        {},
+        { withCredentials: true }
+      );
+      clearUser();
+      navigate("/");
+    } catch (error) {
+      console.log("Logout failed", error.message);
     }
   };
 
@@ -39,13 +57,38 @@ const Navbar = ({ fadeNavItems }) => {
             : "opacity-100 pointer-events-auto"
         }`}
       >
-        {!isOurStory && (
-          <ul className="flex space-x-7 text-white text-shadow-sm text-sm font-bold">
+        <ul
+          className={`flex space-x-7 text-white text-shadow-sm text-sm font-bold transition-all duration-300 ease-in-out ${
+            user ? " translate-y-0" : "-translate-y-2 "
+          }`}
+        >
+          {!isOurStory && (
             <Link to={"/ourStory"}>
               <li>OUR STORY</li>
             </Link>
-          </ul>
-        )}
+          )}
+          {!user && (
+            <>
+              <li>
+                <Link to={"/login"}>LOGIN</Link>
+              </li>
+              <li>
+                {" "}
+                <Link to={"/signup"}>SIGNUP</Link>
+              </li>
+            </>
+          )}
+          {user && (
+            <>
+              <Link to={"/mylibrary"}>MY LIBRARY</Link>
+              <li>
+                <button className="cursor-pointer" onClick={handleLogout}>
+                  LOGOUT
+                </button>
+              </li>
+            </>
+          )}
+        </ul>
       </div>
     </nav>
   );
