@@ -12,9 +12,7 @@ const HomePage = ({ setFadeNavItems }) => {
 
   const { summary, setSummary, videos, setVideos, formData, setFormData } =
     useSummaryStore();
-
   const [loading, setLoading] = useState(false);
-
   const [animationKey, setAnimationKey] = useState(0);
   const containerRef = useRef(null);
 
@@ -115,6 +113,7 @@ const HomePage = ({ setFadeNavItems }) => {
                   name="title"
                   value={formData.title}
                   onChange={handleChange}
+                  autoComplete="off"
                   required
                   className="bg-transparent placeholder-white text-white border-b border-white/40 
                   focus:outline-none text-center text-md w-[140px]"
@@ -126,6 +125,7 @@ const HomePage = ({ setFadeNavItems }) => {
                   name="author"
                   value={formData.author}
                   onChange={handleChange}
+                  autoComplete="off"
                   required
                   className="bg-transparent placeholder-white text-white border-b border-white/40 
                   focus:outline-none text-md text-center w-[140px]"
