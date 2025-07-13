@@ -4,13 +4,14 @@ import { useState, useEffect } from "react";
 import castleHome from "../assets/castle-home.svg";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
-import useAuthStore from "../store/useAuthStore";
+import useAuthStore from "../store/useAuthStore.js";
 
 const MyLibraryPage = () => {
   const [library, setLibrary] = useState([]);
   const [selectedBook, setSelectedBook] = useState(null);
-  const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
+  const isAuthenticated = useAuthStore((state) => state.isAuthenticated());
   const navigate = useNavigate();
+  const noBooks = library.length === 0;
 
   const fetchLibrary = async () => {
     try {
@@ -71,6 +72,13 @@ const MyLibraryPage = () => {
                       className="w-10 h-10 mx-auto opacity-80 hover:opacity-70 hover:scale-103 active:scale-97 transition  cursor-pointer  "
                     />
                   </Link>
+                </div>
+              </div>
+            ) : noBooks ? (
+              <div className="text-center text-white py-10">
+                <p className="text-2xl font-semibold">No books saved to your library yet.</p>
+                <div className="mt-8 hover:underline">
+                  <Link to="/" className="text-sm">Search a book and add it to your library.</Link>
                 </div>
               </div>
             ) : (

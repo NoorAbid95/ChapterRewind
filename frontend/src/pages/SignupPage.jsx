@@ -4,8 +4,10 @@ import axios from "axios";
 import { motion } from "framer-motion";
 import SignupHero from "../components/SignupHero";
 import { EyeOff, Eye, CheckCircle } from "lucide-react";
+import useAuthStore from "../store/useAuthStore.js";
 
 const SignupPage = () => {
+  const { setUser } = useAuthStore();
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
@@ -51,9 +53,14 @@ const SignupPage = () => {
     }
 
     try {
-      await axios.post("http://localhost:3000/api/auth/signup", formData, {
-        withCredentials: true,
-      });
+      const res = await axios.post(
+        "http://localhost:3000/api/auth/signup",
+        formData,
+        {
+          withCredentials: true,
+        }
+      );
+      setUser(res.data.data);
       setSignupSuccess(true);
     } catch (err) {
       console.error("Signup failed", err);
@@ -90,8 +97,14 @@ const SignupPage = () => {
                 Signup successful!
               </h2>
               <Link
+                to={"/mylibrary"}
+                className="mt-4 text-sm text-white hover:text-gray-300"
+              >
+                My Library
+              </Link>
+              <Link
                 to="/"
-                className="mt-4 text-sm text-white hover:text-gray-300 "
+                className="mt-6 mb-2 text-xs text-white hover:text-gray-300 font-extralight "
               >
                 Return Home
               </Link>

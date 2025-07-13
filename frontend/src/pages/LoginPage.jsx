@@ -26,7 +26,7 @@ const LoginPage = () => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
 
-    // Clear error for field when user starts typing
+   
     if (errors[name]) {
       setErrors({ ...errors, [name]: "" });
     }
@@ -104,9 +104,11 @@ const LoginPage = () => {
               <h2 className="text-2xl font-semibold mb-4 text-white">
                 Login successful!
               </h2>
+
+              <Link to={"/mylibrary"} className="mt-4 text-sm text-white hover:text-gray-300">My Library</Link>
               <Link
                 to="/"
-                className="mt-4 text-sm text-white hover:text-gray-300 "
+                className="mt-6 mb-2 text-xs text-white hover:text-gray-300 font-extralight "
               >
                 Return Home
               </Link>

@@ -6,9 +6,11 @@ import SearchHeroSection from "../components/SearchHeroSection";
 import { useEffect } from "react";
 import { sendError } from "../../../backend/src/utils/sendResponse";
 import axios from "axios";
+import useAuthStore from "../store/useAuthStore.js";
 
 const SearchPage = ({ setFadeNavItems }) => {
   const navigate = useNavigate();
+  const isAuthenticated = useAuthStore((state) => state.isAuthenticated());
   const { summary, setSummary, videos, setVideos, formData, setFormData } =
     useSummaryStore();
 
@@ -24,6 +26,7 @@ const SearchPage = ({ setFadeNavItems }) => {
       })
       .join(" ");
   }
+
   useEffect(() => {
     const handleScroll = () => {
       setFadeNavItems(window.scrollY > 0);
@@ -121,15 +124,22 @@ const SearchPage = ({ setFadeNavItems }) => {
                       <VideoCarousel videos={videos} />
                     </div>
                   )}
-                  <div>
-                    <button
-                      className="btn-primary border text-black bg-amber-50 cursor-pointer"
-                      onClick={handleAddToLibrary}
-                    >
-                      Add to my library
-                    </button>
-                  </div>
+                  {isAuthenticated && (
+                    <div className="flex justify-center items-center">
+                      <button
+                        className="px-6 py-2 bg-[#F3E9D2]/90 text-[#46281E] font-medium rounded-full 
+             shadow-md shadow-[#3B3648]/30 border border-[#BC7647]/40 
+             hover:bg-[#FAF4E7] hover:shadow-lg hover:scale-105 
+             active:scale-95 transition-all duration-200 cursor-pointer"
+                        onClick={handleAddToLibrary}
+                      >
+                        ✧ Add to My Library ✧
+                      </button>
+                    </div>
+                  )}
+
                   <div id="return" className="flex flex-col  items-center mt-6">
+                    <span className="text-xs  text-white mb-1 font-extralight">HOME</span>
                     <Link
                       to="/"
                       title="Homepage"
