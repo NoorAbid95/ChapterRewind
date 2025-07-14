@@ -4,12 +4,16 @@ import VideoCarousel from "../components/VideoCarousel";
 import BowAnimation from "../components/BowAnimation";
 import SearchHeroSection from "../components/SearchHeroSection";
 import { useEffect } from "react";
+import { toast } from "react-toastify";
 import axios from "axios";
 import useAuthStore from "../store/useAuthStore.js";
+import { useState } from "react";
 
 const SearchPage = ({ setFadeNavItems }) => {
   const navigate = useNavigate();
   const isAuthenticated = useAuthStore((state) => state.isAuthenticated());
+  const [isInLibrary, setIsInLibrary] = useState(false);
+  const [library, setLibrary] = useState([]);
   const { summary, setSummary, videos, setVideos, formData, setFormData } =
     useSummaryStore();
 
@@ -40,6 +44,31 @@ const SearchPage = ({ setFadeNavItems }) => {
     };
   }, [setFadeNavItems]);
 
+  useEffect(() => {
+    const fetchLibrary = async () => {
+      try {
+        const res = await axios.get(
+          "http://localhost:3000/api/books/mylibrary",
+          {
+            withCredentials: true,
+          }
+        );
+        setLibrary(res.data.data);
+      } catch (error) {
+        console.log("Failed to fetch library data", error);
+      }
+    };
+    fetchLibrary();
+  }, []);
+
+  useEffect(() => {
+    const bookExists = library.some(
+      (book) =>
+        book.title.toLowerCase() === formData.title.toLowerCase().trim() &&
+        book.author.toLowerCase() === formData.author.toLowerCase().trim()
+    );
+    setIsInLibrary(bookExists);
+  }, [library, formData]);
   const handleAddToLibrary = async () => {
     try {
       await axios.post(
@@ -52,9 +81,15 @@ const SearchPage = ({ setFadeNavItems }) => {
         },
         { withCredentials: true }
       );
-      console.log("Added to lib");
+      setIsInLibrary(true);
+      toast.success("Book added to your library");
     } catch (error) {
-      console.log("Error sending to library", error.message);
+      if (error.response?.status === 409) {
+        toast.error("This book has already been added to your library");
+      } else {
+        toast.error("Something went wrong. Please try again.");
+        console.log("Add to library error", error.message);
+      }
     }
   };
 
@@ -123,16 +158,28 @@ const SearchPage = ({ setFadeNavItems }) => {
                     </div>
                   )}
                   {isAuthenticated && (
-                    <div className="flex justify-center items-center">
-                      <button
-                        className="px-6 py-2 bg-[#F3E9D2]/90 text-[#46281E] font-medium rounded-full 
+                    <div className="flex justify-center items-center mt-4">
+                      {isInLibrary ? (
+                        <button
+                          onClick={() => navigate("/mylibrary")}
+                          className="px-6 py-2 bg-[#F3E9D2]/90 text-[#46281E] font-medium rounded-full 
              shadow-md shadow-[#3B3648]/30 border border-[#BC7647]/40 
              hover:bg-[#FAF4E7] hover:shadow-lg hover:scale-105 
              active:scale-95 transition-all duration-200 cursor-pointer"
-                        onClick={handleAddToLibrary}
-                      >
-                        ✧ Add to My Library ✧
-                      </button>
+                        >
+                          This book is in your library → View Library
+                        </button>
+                      ) : (
+                        <button
+                          className="px-6 py-2 bg-[#F3E9D2]/90 text-[#46281E] font-medium rounded-full 
+             shadow-md shadow-[#3B3648]/30 border border-[#BC7647]/40 
+             hover:bg-[#FAF4E7] hover:shadow-lg hover:scale-105 
+             active:scale-95 transition-all duration-200 cursor-pointer"
+                          onClick={handleAddToLibrary}
+                        >
+                          Add to My Library
+                        </button>
+                      )}
                     </div>
                   )}
 

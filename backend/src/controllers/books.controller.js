@@ -120,7 +120,14 @@ export const addBookToLibrary = async (req, res) => {
     const coverUrl = coverResponse.data.url;
     const userId = req.user._id;
 
-    // Save to user library
+    const existingBook = await User.findOne({
+      _id: userId,
+      "library.title": correctedTitle,
+      "library.author": correctedAuthor,
+    });
+    if (existingBook) {
+      return sendError(res, "Book already exists in library", 409);
+    }
     const updatedUser = await User.findByIdAndUpdate(
       userId,
       {
