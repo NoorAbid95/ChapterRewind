@@ -4,7 +4,6 @@ import VideoCarousel from "../components/VideoCarousel";
 import BowAnimation from "../components/BowAnimation";
 import SearchHeroSection from "../components/SearchHeroSection";
 import { useEffect } from "react";
-import { sendError } from "../../../backend/src/utils/sendResponse";
 import axios from "axios";
 import useAuthStore from "../store/useAuthStore.js";
 
@@ -56,7 +55,6 @@ const SearchPage = ({ setFadeNavItems }) => {
       console.log("Added to lib");
     } catch (error) {
       console.log("Error sending to library", error.message);
-      sendError(res);
     }
   };
 
@@ -139,7 +137,9 @@ const SearchPage = ({ setFadeNavItems }) => {
                   )}
 
                   <div id="return" className="flex flex-col  items-center mt-6">
-                    <span className="text-xs  text-white mb-1 font-extralight">HOME</span>
+                    <span className="text-xs  text-white mb-1 font-extralight">
+                      HOME
+                    </span>
                     <Link
                       to="/"
                       title="Homepage"
