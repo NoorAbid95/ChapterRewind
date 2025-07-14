@@ -9,6 +9,9 @@ const Navbar = ({ fadeNavItems }) => {
   const location = useLocation();
   const navigate = useNavigate();
   const isOurStory = location.pathname === "/ourStory";
+  const isLogin = location.pathname === "/login";
+  const isSignup = location.pathname === "/signup";
+  const isMyLibrary = location.pathname == "/mylibrary";
 
   const handleBookshelfClick = () => {
     if (location.pathname === "/") {
@@ -69,18 +72,23 @@ const Navbar = ({ fadeNavItems }) => {
           )}
           {!user && (
             <>
-              <li>
-                <Link to={"/login"}>LOGIN</Link>
-              </li>
-              <li>
-                {" "}
-                <Link to={"/signup"}>SIGNUP</Link>
-              </li>
+              {!isLogin && (
+                <li>
+                  <Link to={"/login"}>LOGIN</Link>
+                </li>
+              )}
+              {!isSignup && (
+                <li>
+                  {" "}
+                  <Link to={"/signup"}>SIGNUP</Link>
+                </li>
+              )}
             </>
           )}
           {user && (
             <>
-              <Link to={"/mylibrary"}>MY LIBRARY</Link>
+              {!isMyLibrary && <Link to={"/mylibrary"}>MY LIBRARY</Link>}
+
               <li>
                 <button className="cursor-pointer" onClick={handleLogout}>
                   LOGOUT
