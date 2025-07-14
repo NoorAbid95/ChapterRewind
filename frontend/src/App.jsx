@@ -8,6 +8,7 @@ import SignupPage from "./pages/SignupPage";
 import LoginPage from "./pages/LoginPage";
 import MyLibraryPage from "./pages/MyLibraryPage";
 import useAuthStore from "./store/useAuthStore";
+import { ToastContainer } from "react-toastify";
 
 function App() {
   const [fadeNavItems, setFadeNavItems] = useState(false);
@@ -48,6 +49,10 @@ function App() {
         <Route path="/login" element={<LoginPage />} />
         <Route path="/mylibrary" element={<MyLibraryPage />} />
       </Routes>
+      <ToastContainer
+        position="bottom-center"
+        autoClose={4000}
+      />
     </>
   );
 }
