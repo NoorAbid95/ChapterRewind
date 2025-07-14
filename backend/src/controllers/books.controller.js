@@ -3,8 +3,6 @@ import { sendSuccess, sendError } from "../utils/sendResponse.js";
 import openAI from "openai";
 import dotenv from "dotenv";
 import User from "../models/user.models.js";
-import { update } from "three/examples/jsm/libs/tween.module.js";
-import { equal } from "three/tsl";
 dotenv.config();
 
 //Home page route
@@ -88,21 +86,52 @@ export const addBookToLibrary = async (req, res) => {
   const { title, author, summary } = req.body;
 
   try {
-    const userId = req.user._id;
+    const query = `${title} ${author}`;
+    const googleResponse = await axios.get(
+      "https://www.googleapis.com/books/v1/volumes",
+      {
+        params: {
+          q: query,
+          maxResults: 1,
+          key: process.env.GOOGLE_BOOKS_API,
+        },
+      }
+    );
+
+    const book = googleResponse.data.items?.[0];
+    if (!book) {
+      return sendError(res, "No book found with that title/author", 404);
+    }
+
+    const volumeInfo = book.volumeInfo;
+    const correctedTitle = volumeInfo.title;
+    const correctedAuthor = volumeInfo.authors?.[0] || "";
+
     const coverResponse = await axios.get(
       "https://bookcover.longitood.com/bookcover",
       {
-        params: { book_title: title, author_name: author },
+        params: {
+          book_title: correctedTitle,
+          author_name: correctedAuthor,
+        },
       }
     );
-    const coverUrl = coverResponse.data.url;
 
-    // Add book to user library
+    const coverUrl = coverResponse.data.url;
+    const userId = req.user._id;
+
+    // Save to user library
     const updatedUser = await User.findByIdAndUpdate(
       userId,
       {
         $push: {
-          library: { title, author, coverUrl, summary, notes: "" },
+          library: {
+            title: correctedTitle,
+            author: correctedAuthor,
+            coverUrl,
+            summary,
+            notes: "",
+          },
         },
       },
       { new: true }
@@ -110,7 +139,7 @@ export const addBookToLibrary = async (req, res) => {
 
     sendSuccess(res, updatedUser.library, "Book added to library", 201);
   } catch (error) {
-    console.error("Error adding book to library", error);
+    console.error("Error adding book to library", error.message);
     sendError(res);
   }
 };
