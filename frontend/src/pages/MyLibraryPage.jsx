@@ -42,27 +42,15 @@ const MyLibraryPage = () => {
 
       <div className="relative z-10 px-4 py-10 mt-10">
         <div className="flex justify-center">
-          <div className="w-auto max-w-6xl bg-black/30 rounded-3xl p-8 backdrop-blur-sm">
+          <div className="w-auto max-w-6xl  bg-linear-to-b from-[#521A15]/30 to-[#741C27]/30 rounded-3xl p-8 backdrop-blur-sm">
             {!isAuthenticated ? (
-              <div className="text-center text-white space-y-4">
+              <div className="text-center text-white space-y-4 h-auto">
                 <p className="text-xl font-medium">
-                  Create an account or login to save books to your library.
+                  <Link to={"/signup"} className="underline hover:text-gray-300">
+                  Create an account
+                  </Link> or <Link to={"/login"} className="underline hover:text-gray-300"> login</Link> to save books to your library!
                 </p>
-                <div className="mt-6 p-6 flex justify-center gap-4">
-                  <button
-                    className="px-4 bg-[#46281E]/80 text-white rounded-full hover:bg-[#BC7647]/80 hover:scale-102 active:scale-97 transition cursor-pointer"
-                    onClick={() => navigate("/login")}
-                  >
-                    Login
-                  </button>
-                  <button
-                    className="px-4 py-2 bg-[#46281E]/80 text-white rounded-full hover:bg-[#BC7647]/80 hover:scale-102 active:scale-97 transition cursor-pointer"
-                    onClick={() => navigate("/signup")}
-                  >
-                    Sign Up
-                  </button>
-                </div>
-                <div>
+                <div className="mt-8">
                   <Link to={"/"}>
                     <span className="text-xs font-extralight">HOME</span>
                     <img
@@ -76,26 +64,40 @@ const MyLibraryPage = () => {
               </div>
             ) : noBooks ? (
               <div className="text-center text-white py-10">
-                <p className="text-2xl font-semibold">No books saved to your library yet.</p>
+                <p className="text-2xl font-semibold">
+                  No books saved to your library yet.
+                </p>
                 <div className="mt-8 hover:underline">
-                  <Link to="/" className="text-sm">Search a book and add it to your library.</Link>
+                  <Link to="/" className="text-sm">
+                    Search a book and add it to your library.
+                  </Link>
                 </div>
               </div>
             ) : (
               <>
-                <div className="w-full flex p-2 gap-x-15 ">
+                <div className="w-full flex p-2 gap-x-20 ">
                   {library.map((book) => (
                     <img
                       key={book._id}
                       src={book.coverUrl}
                       alt={`${book.title} cover`}
-                      className="h-35 w-28 rounded-sm cursor-pointer hover:scale-103 active:scale-97"
+                      className="h-37 w-30 rounded-sm cursor-pointer hover:scale-103 active:scale-97 shadow shadow-black"
                       onClick={() => setSelectedBook(book)}
                     />
                   ))}
                 </div>
-                <div className="flex justify-center mt-4 font-semibold text-white hover:underline">
-                  <Link to={"/"}>Recap another book?</Link>
+                <div className="flex flex-col justify-center items-center mt-50">
+                  <Link to={"/"}>
+                    <span className="text-xs text-white font-extralight">
+                      HOME
+                    </span>
+                    <img
+                      src={castleHome}
+                      alt="Home button"
+                      title="Homepage"
+                      className="w-10 h-10 mx-auto opacity-80 hover:opacity-70 hover:scale-103 active:scale-97 transition  cursor-pointer  "
+                    />
+                  </Link>
                 </div>
               </>
             )}

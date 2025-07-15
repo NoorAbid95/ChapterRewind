@@ -1,10 +1,14 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
+import { toast } from "react-toastify";
+import { div } from "three/tsl";
 
 const BookDetailModal = ({ book, isOpen, onClose, onUpdateLibrary }) => {
   const [note, setNote] = useState("");
   const [originalNote, setOriginalNote] = useState("");
   const [editing, setEditing] = useState(false);
+  const [confirmDeleteNote, setConfirmDeleteNote] = useState(false);
+  const [confirmDeleteBook, setConfirmDeleteBook] = useState(false);
 
   function toPascalCase(str) {
     return str
@@ -45,21 +49,16 @@ const BookDetailModal = ({ book, isOpen, onClose, onUpdateLibrary }) => {
         { note },
         { withCredentials: true }
       );
-      alert("Note saved");
+      toast.success("Note Saved");
       setOriginalNote(note);
       setEditing(false);
     } catch (error) {
       console.error("Error saving note:", error.message);
-      alert("Failed to save note");
+      toast.error("Failed to Save Note");
     }
   };
 
   const deleteNote = async () => {
-    const confirmed = window.confirm(
-      "Are you sure you want to delete this note?"
-    );
-    if (!confirmed) return;
-
     try {
       await axios.delete(
         `http://localhost:3000/api/books/mylibrary/${book._id}/notes`,
@@ -68,31 +67,26 @@ const BookDetailModal = ({ book, isOpen, onClose, onUpdateLibrary }) => {
       setNote("");
       setOriginalNote("");
       setEditing(false);
-      alert("Note deleted");
+      toast.success("Note Deleted");
     } catch (error) {
       console.error("Error deleting note:", error.message);
-      alert("Failed to delete note");
+      toast.error("Failed to Delete Note");
     }
   };
 
   const deleteBook = async () => {
-    const confirmed = window.confirm(
-      "Are you sure you want to delete this book?"
-    );
-    if (!confirmed) return;
-
     try {
       await axios.delete(
         `http://localhost:3000/api/books/mylibrary/${book._id}`,
         { withCredentials: true }
       );
 
-      alert("Book deleted from library");
+      toast.success("Book deleted from library");
       onUpdateLibrary();
       onClose();
     } catch (error) {
       console.error("Error deleting book:", error.message);
-      alert("Failed to delete book");
+      toast.error("Failed to delete book");
     }
   };
 
@@ -100,13 +94,12 @@ const BookDetailModal = ({ book, isOpen, onClose, onUpdateLibrary }) => {
 
   return (
     <div
-      className={`fixed inset-0 bg-black/70 z-50 flex justify-center items-center ${
-        isOpen ? "hover:cursor-pointer" : "hover:cursor-alias"
+      className={`fixed inset-0 bg-black/70 z-50 flex justify-center items-center
       }`}
       onClick={onClose}
     >
       <div
-        className="bg-white rounded-xl w-full max-w-2xl h-[90vh] overflow-hidden relative flex flex-col"
+        className="bg-gradient-to-tr from-white/80 to-zinc-100/90 rounded-xl w-full max-w-3xl h-[90vh] overflow-hidden relative flex flex-col"
         onClick={(e) => e.stopPropagation()}
       >
         <div id="custom-scroll" className="p-6 overflow-y-auto">
@@ -116,7 +109,6 @@ const BookDetailModal = ({ book, isOpen, onClose, onUpdateLibrary }) => {
           >
             &times;
           </button>
-
           {/* Book Details */}
           <div className="text-center flex flex-col justify-center items-center hover:cursor-default">
             <h2 className="text-2xl font-bold">{toPascalCase(book.title)}</h2>
@@ -124,51 +116,57 @@ const BookDetailModal = ({ book, isOpen, onClose, onUpdateLibrary }) => {
             <img
               src={book.coverUrl}
               alt={book.title}
-              className="w-40 my-4 rounded"
+              className="w-40 my-4 rounded shadow shadow-black"
             />
             <p className="mt-4 text-gray-800">{book.summary}</p>
           </div>
-
           {/* Notes Section */}
-          <div className="mt-6">
-            <h3 className="text-lg font-semibold mb-2">
-              {note?.trim() ? "Your Notes" : "Add notes for this book?"}
-            </h3>
-
+          <div className=" flex flex-col justify-center items-center mt-8">
             {!editing ? (
               <div
-                className={`text-gray-800 whitespace-pre-wrap p-3 rounded relative text-center ${
-                  note?.trim() ? "bg-gray-100" : "bg-transparent"
+                className={`text-gray-800 whitespace-pre-wrap p-3 rounded-xl relative text-center ${
+                  note?.trim()
+                    ? "bg-linear-to-b from-white/30 to-gray-400/10"
+                    : "bg-transparent"
                 }`}
               >
-                {note?.trim() ? note : ""}
-                <div className="mt-2">
-                  <button
-                    onClick={() => setEditing(true)}
-                    className="cursor-pointer hover:scale-104 active:scale-97"
-                  >
-                    {note?.trim() ? "✍️" : "➕"}
-                  </button>
+                <h3 className=" font-semibold ">
+                  {note?.trim() ? (
+                    <button
+                      className="cursor-pointer hover:scale-103"
+                      onClick={() => setEditing(true)}
+                    >
+                      {" "}
+                      My Notes
+                    </button>
+                  ) : (
+                    <>
+                      <button
+                        className="cursor-pointer"
+                        onClick={() => setEditing(true)}
+                      >
+                        {" "}
+                        Add Book Notes
+                      </button>
+                    </>
+                  )}
+                </h3>
+                <div className="p-4 mx-4 text-sm">
+                  {note?.trim() ? note : ""}
                 </div>
-                <button
-                  onClick={deleteBook}
-                  className="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700"
-                >
-                  Remove Book from Library
-                </button>
               </div>
             ) : (
               <>
                 <textarea
-                  className="w-full p-2 border rounded"
+                  className="w-full p-2  border-gray-100/50 border-2 rounded-xl focus:outline-none focus:border-gray-100/80"
                   rows={5}
                   value={note}
                   onChange={(e) => setNote(e.target.value)}
                 />
-                <div className="flex gap-2 mt-2">
+                <div className="flex gap-2 mt-2 px-4">
                   <button
                     onClick={saveNote}
-                    className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 cursor-pointer"
+                    className="px-3 py-1 bg-green-800/80 text-white rounded-full hover:bg-green-800/90 cursor-pointer text-sm hover:font-semibold "
                   >
                     Save Note
                   </button>
@@ -177,20 +175,70 @@ const BookDetailModal = ({ book, isOpen, onClose, onUpdateLibrary }) => {
                       setNote(originalNote);
                       setEditing(false);
                     }}
-                    className="px-4 py-2 bg-gray-300 text-gray-800 rounded hover:bg-gray-400 cursor-pointer"
+                    className="px-4 py-1 bg-black/70 text-white rounded-full hover:bg-black/80 cursor-pointer text-sm hover:font-semibold"
                   >
                     Cancel
                   </button>
-                  {originalNote && (
+                  {/* {Delete Note Section} */}
+                  {originalNote && !confirmDeleteNote && (
                     <button
-                      onClick={deleteNote}
-                      className="ml-auto px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700"
+                      onClick={() => setConfirmDeleteNote(true)}
+                      className="px-4 py-1 bg-red-800/70 text-white rounded-full hover:bg-red-800/80 cursor-pointer text-sm hover:font-semibold"
                     >
                       Delete Note
                     </button>
                   )}
+                  {confirmDeleteNote && (
+                    <div className="flex gap-2 ml-auto">
+                      <p>Are you sure you want to delete this note?</p>
+                      <button
+                        onClick={() => {
+                          deleteNote();
+                          setConfirmDeleteNote(false);
+                        }}
+                        className="px-3 py-1 bg-red-700 text-white rounded-full hover:bg-red-800 text-sm cursor-pointer"
+                      >
+                        Confirm
+                      </button>
+                      <button
+                        onClick={() => setConfirmDeleteNote(false)}
+                        className="px-3 py-1 bg-gray-300 text-gray-800 rounded-full hover:bg-gray-400 text-sm cursor-pointer"
+                      >
+                        Keep Note
+                      </button>
+                    </div>
+                  )}
                 </div>
               </>
+            )}
+          </div>
+          {/* {Delete Book Section} */}
+          <div className="flex justify-center items-center mt-8">
+            {!confirmDeleteBook ? (
+              <button
+                onClick={() => setConfirmDeleteBook(true)}
+                className="px-1 py-1 mt-8  text-red-700/80 text-[12px] font-semibold  rounded hover:text-red-600 hover:scale-102 cursor-pointer"
+              >
+                Remove Book From Library
+              </button>
+            ) : (
+              <div className="flex gap-4">
+                <button
+                  onClick={() => {
+                    deleteBook();
+                    setConfirmDeleteBook(false);
+                  }}
+                  className="px-3 py-1 bg-red-700 text-white rounded-full hover:bg-red-800 text-sm cursor-pointer"
+                >
+                  Confirm
+                </button>
+                <button
+                  onClick={() => setConfirmDeleteBook(false)}
+                  className="px-3 py-1 bg-gray-300 text-gray-800 rounded-full hover:bg-gray-400 text-sm cursor-pointer"
+                >
+                  Keep Book
+                </button>
+              </div>
             )}
           </div>
         </div>
