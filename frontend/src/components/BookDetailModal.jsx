@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
-import { div } from "three/tsl";
+import editIcon from "../assets/edit_icon.svg";
 
 const BookDetailModal = ({ book, isOpen, onClose, onUpdateLibrary }) => {
   const [note, setNote] = useState("");
@@ -99,7 +99,7 @@ const BookDetailModal = ({ book, isOpen, onClose, onUpdateLibrary }) => {
       onClick={onClose}
     >
       <div
-        className="bg-gradient-to-tr from-white/80 to-zinc-100/90 rounded-xl w-full max-w-3xl h-[90vh] overflow-hidden relative flex flex-col"
+        className="bg-gradient-to-t from-gray-800/80 to-black/90 rounded-xl w-full max-w-3xl h-[90vh] overflow-hidden relative flex flex-col"
         onClick={(e) => e.stopPropagation()}
       >
         <div id="custom-scroll" className="p-6 overflow-y-auto">
@@ -111,14 +111,16 @@ const BookDetailModal = ({ book, isOpen, onClose, onUpdateLibrary }) => {
           </button>
           {/* Book Details */}
           <div className="text-center flex flex-col justify-center items-center hover:cursor-default">
-            <h2 className="text-2xl font-bold">{toPascalCase(book.title)}</h2>
-            <p className="text-sm text-gray-600 mb-2">by {book.author}</p>
+            <h2 className="text-2xl text-white font-bold">
+              {toPascalCase(book.title)}
+            </h2>
+            <p className="text-sm text-gray-300 mb-2">by {book.author}</p>
             <img
               src={book.coverUrl}
               alt={book.title}
               className="w-40 my-4 rounded shadow shadow-black"
             />
-            <p className="mt-4 text-gray-800">{book.summary}</p>
+            <p className="mt-4 text-white">{book.summary}</p>
           </div>
           {/* Notes Section */}
           <div className=" flex flex-col justify-center items-center mt-8">
@@ -126,23 +128,25 @@ const BookDetailModal = ({ book, isOpen, onClose, onUpdateLibrary }) => {
               <div
                 className={`text-gray-800 whitespace-pre-wrap p-3 rounded-xl relative text-center ${
                   note?.trim()
-                    ? "bg-linear-to-b from-white/30 to-gray-400/10"
+                    ? "bg-linear-to-b from-white/70 to-gray-400/90 w-3/4"
                     : "bg-transparent"
                 }`}
               >
                 <h3 className=" font-semibold ">
                   {note?.trim() ? (
-                    <button
-                      className="cursor-pointer hover:scale-103"
-                      onClick={() => setEditing(true)}
-                    >
-                      {" "}
-                      My Notes
-                    </button>
+                    <>
+                      <button
+                        className="cursor-pointer hover:scale-103"
+                        onClick={() => setEditing(true)}
+                      >
+                        {" "}
+                        My Notes
+                      </button>
+                    </>
                   ) : (
                     <>
                       <button
-                        className="cursor-pointer"
+                        className="cursor-pointer text-gray-200 hover:scale-102"
                         onClick={() => setEditing(true)}
                       >
                         {" "}
@@ -154,15 +158,26 @@ const BookDetailModal = ({ book, isOpen, onClose, onUpdateLibrary }) => {
                 <div className="p-4 mx-4 text-sm">
                   {note?.trim() ? note : ""}
                 </div>
+                {note?.trim() && (
+                  <button className="cursor-pointer  hover:scale-107">
+                    <img
+                      src={editIcon}
+                      alt="Edit Icon"
+                      onClick={() => setEditing(true)}
+                      style={{ height: "25px", width: "28px" }}
+                    />
+                  </button>
+                )}
               </div>
             ) : (
               <>
                 <textarea
-                  className="w-full p-2  border-gray-100/50 border-2 rounded-xl focus:outline-none focus:border-gray-100/80"
+                  className="w-full p-2  border-gray-100/50 border-2 rounded-xl focus:outline-none focus:border-gray-100/80 text-white"
                   rows={5}
                   value={note}
                   onChange={(e) => setNote(e.target.value)}
                 />
+
                 <div className="flex gap-2 mt-2 px-4">
                   <button
                     onClick={saveNote}

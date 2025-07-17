@@ -49,10 +49,7 @@ function App() {
         <Route path="/login" element={<LoginPage />} />
         <Route path="/mylibrary" element={<MyLibraryPage />} />
       </Routes>
-      <ToastContainer
-        position="bottom-center"
-        autoClose={4000}
-      />
+      <ToastContainer position="bottom-center" autoClose={4000} />
     </>
   );
 }

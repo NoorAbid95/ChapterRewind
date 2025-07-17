@@ -3,17 +3,17 @@ import useSummaryStore from "../store/useSummaryStore";
 import VideoCarousel from "../components/VideoCarousel";
 import BowAnimation from "../components/BowAnimation";
 import SearchHeroSection from "../components/SearchHeroSection";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import axios from "axios";
 import useAuthStore from "../store/useAuthStore.js";
-import { useState } from "react";
 
 const SearchPage = ({ setFadeNavItems }) => {
   const navigate = useNavigate();
   const isAuthenticated = useAuthStore((state) => state.isAuthenticated());
   const [isInLibrary, setIsInLibrary] = useState(false);
   const [library, setLibrary] = useState([]);
+  const [isAdding, setIsAdding] = useState(false);
   const { summary, setSummary, videos, setVideos, formData, setFormData } =
     useSummaryStore();
 
@@ -34,11 +34,8 @@ const SearchPage = ({ setFadeNavItems }) => {
     const handleScroll = () => {
       setFadeNavItems(window.scrollY > 0);
     };
-
     window.addEventListener("scroll", handleScroll);
-
     handleScroll();
-
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
@@ -69,7 +66,9 @@ const SearchPage = ({ setFadeNavItems }) => {
     );
     setIsInLibrary(bookExists);
   }, [library, formData]);
+
   const handleAddToLibrary = async () => {
+    setIsAdding(true);
     try {
       await axios.post(
         "http://localhost:3000/api/books/mylibrary",
@@ -90,6 +89,8 @@ const SearchPage = ({ setFadeNavItems }) => {
         toast.error("Something went wrong. Please try again.");
         console.log("Add to library error", error.message);
       }
+    } finally {
+      setIsAdding(false);
     }
   };
 
@@ -172,12 +173,20 @@ const SearchPage = ({ setFadeNavItems }) => {
                       ) : (
                         <button
                           className="px-6 py-2 bg-[#F3E9D2]/90 text-[#46281E] font-medium rounded-full 
-             shadow-md shadow-[#3B3648]/30 border border-[#BC7647]/40 
-             hover:bg-[#FAF4E7] hover:shadow-lg hover:scale-105 
-             active:scale-95 transition-all duration-200 cursor-pointer"
+            shadow-md shadow-[#3B3648]/30 border border-[#BC7647]/40 
+            hover:bg-[#FAF4E7] hover:shadow-lg hover:scale-105 
+            active:scale-95 transition-all duration-200 cursor-pointer flex items-center gap-2"
+                          disabled={isAdding}
                           onClick={handleAddToLibrary}
                         >
-                          Add to My Library
+                          {isAdding ? (
+                            <>
+                              <span>Adding...</span>
+                              <div className="w-4 h-4 border-2 border-[#46281E] border-t-transparent rounded-full animate-spin"></div>
+                            </>
+                          ) : (
+                            "Add to My Library"
+                          )}
                         </button>
                       )}
                     </div>
