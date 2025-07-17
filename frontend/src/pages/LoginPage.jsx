@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import { EyeOff, Eye, CheckCircle } from "lucide-react";
 import LoginHero from "../components/LoginHero";
 import useAuthStore from "../store/useAuthStore.js";
+import castleHome from "../assets/castle-home.svg";
 
 const LoginPage = () => {
   const setUser = useAuthStore((state) => state.setUser);
@@ -26,7 +27,6 @@ const LoginPage = () => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
 
-   
     if (errors[name]) {
       setErrors({ ...errors, [name]: "" });
     }
@@ -101,16 +101,27 @@ const LoginPage = () => {
               >
                 <CheckCircle size={48} />
               </motion.div>
-              <h2 className="text-2xl font-semibold mb-4 text-white">
+              <h2 className="text-3xl font-semibold mb-4 text-white">
                 Login successful!
               </h2>
 
-              <Link to={"/mylibrary"} className="mt-4 text-sm text-white hover:text-gray-300">My Library</Link>
+              <Link
+                to={"/mylibrary"}
+                className="mt-4 text-sm text-white hover:text-gray-300 font-semibold"
+              >
+                Got to My Library
+              </Link>
               <Link
                 to="/"
-                className="mt-6 mb-2 text-xs text-white hover:text-gray-300 font-extralight "
+                className="mt-6 mb-2"
               >
-                Return Home
+                <span className="font-extralight text-xs text-white">HOME</span>
+                <img
+                  src={castleHome}
+                  alt="Home button"
+                  title="Homepage"
+                  className="w-10 h-10 mx-auto opacity-80 hover:opacity-70 hover:scale-103 active:scale-97 transition  cursor-pointer  "
+                />
               </Link>
             </div>
           ) : (

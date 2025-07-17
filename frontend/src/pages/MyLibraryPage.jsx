@@ -46,9 +46,18 @@ const MyLibraryPage = () => {
             {!isAuthenticated ? (
               <div className="text-center text-white space-y-4 h-auto">
                 <p className="text-xl font-medium">
-                  <Link to={"/signup"} className="underline hover:text-gray-300">
-                  Create an account
-                  </Link> or <Link to={"/login"} className="underline hover:text-gray-300"> login</Link> to save books to your library!
+                  <Link
+                    to={"/signup"}
+                    className="underline hover:text-gray-300"
+                  >
+                    Create an account
+                  </Link>{" "}
+                  or{" "}
+                  <Link to={"/login"} className="underline hover:text-gray-300">
+                    {" "}
+                    login
+                  </Link>{" "}
+                  to save books to your library!
                 </p>
                 <div className="mt-8">
                   <Link to={"/"}>
@@ -75,16 +84,18 @@ const MyLibraryPage = () => {
               </div>
             ) : (
               <>
-                <div className="w-full flex p-2 gap-x-20 ">
-                  {library.map((book) => (
-                    <img
-                      key={book._id}
-                      src={book.coverUrl}
-                      alt={`${book.title} cover`}
-                      className="h-37 w-30 rounded-sm cursor-pointer hover:scale-103 active:scale-97 shadow shadow-black"
-                      onClick={() => setSelectedBook(book)}
-                    />
-                  ))}
+                <div className="max-h-[500px] px-2 ">
+                  <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6 justify-items-center">
+                    {library.map((book) => (
+                      <img
+                        key={book._id}
+                        src={book.coverUrl}
+                        alt={`${book.title} cover`}
+                        className="h-37 w-30 rounded-sm cursor-pointer hover:scale-103 active:scale-97 shadow shadow-black"
+                        onClick={() => setSelectedBook(book)}
+                      />
+                    ))}
+                  </div>
                 </div>
                 <div className="flex flex-col justify-center items-center mt-50">
                   <Link to={"/"}>

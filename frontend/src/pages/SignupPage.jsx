@@ -5,8 +5,12 @@ import { motion } from "framer-motion";
 import SignupHero from "../components/SignupHero";
 import { EyeOff, Eye, CheckCircle } from "lucide-react";
 import useAuthStore from "../store/useAuthStore.js";
+import castleHome from "../assets/castle-home.svg";
 
 const SignupPage = () => {
+  const [showPassword, setShowPassword] = useState(false);
+  const [signupSuccess, setSignupSuccess] = useState(false);
+  const [errors, setErrors] = useState({});
   const { setUser } = useAuthStore();
   const navigate = useNavigate();
 
@@ -15,11 +19,6 @@ const SignupPage = () => {
     email: "",
     password: "",
   });
-
-  const [showPassword, setShowPassword] = useState(false);
-  const [signupSuccess, setSignupSuccess] = useState(false);
-
-  const [errors, setErrors] = useState({});
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -93,20 +92,24 @@ const SignupPage = () => {
               >
                 <CheckCircle size={48} />
               </motion.div>
-              <h2 className="text-2xl font-semibold mb-4 text-white">
+              <h2 className="text-3xl font-semibold mb-4 text-white">
                 Signup successful!
               </h2>
               <Link
                 to={"/mylibrary"}
-                className="mt-4 text-sm text-white hover:text-gray-300"
+                className="mt-4 text-sm text-white hover:text-gray-300 font-semibold"
               >
-                My Library
+                Go to My Library
               </Link>
-              <Link
-                to="/"
-                className="mt-6 mb-2 text-xs text-white hover:text-gray-300 font-extralight "
-              >
-                Return Home
+
+              <Link to="/" className="mt-6 mb-2">
+                <span className="font-extralight text-xs text-white">HOME</span>
+                <img
+                  src={castleHome}
+                  alt="Home button"
+                  title="Homepage"
+                  className="w-10 h-10 mx-auto opacity-80 hover:opacity-70 hover:scale-103 active:scale-97 transition  cursor-pointer  "
+                />
               </Link>
             </div>
           ) : (
