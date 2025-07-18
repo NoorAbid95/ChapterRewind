@@ -1,13 +1,13 @@
 import { motion } from "framer-motion";
-import openBook from "../assets/backgrounds/open_book.jpg";
+import MyLibraryBg from "../../assets/backgrounds/myLibrary_bg.jpg";
 
-const OurStoryHero = () => {
+const MyLibraryHero = () => {
   return (
     <div className="relative h-screen overflow-hidden flex items-center justify-center">
       <motion.div
         className="absolute inset-0 bg-cover bg-center z-0"
         style={{
-          backgroundImage: `url(${openBook})`,
+          backgroundImage: `url(${MyLibraryBg})`,
           backgroundColor: "#f3f4f6", // fallback color
         }}
         initial={{ scale: 1.1 }}
@@ -18,4 +18,4 @@ const OurStoryHero = () => {
   );
 };
 
-export default OurStoryHero;
+export default MyLibraryHero;

@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
-import skyBg from "../assets/backgrounds/hero1-fantasy-sky.jpg";
+import skyBg from "../../assets/backgrounds/hero1-fantasy-sky.jpg";
 
 const HeroSectionOne = () => {
   const [isVisible, setIsVisible] = useState(false);

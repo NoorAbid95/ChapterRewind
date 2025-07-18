@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import OurStoryHero from "../components/OurStoryHero";
+import OurStoryHero from "../components/HeroSections/OurStoryHero";
 import castleHome from "../assets/castle-home.svg";
 import { motion } from "framer-motion";
 

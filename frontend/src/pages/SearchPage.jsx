@@ -1,8 +1,8 @@
 import { useNavigate, Link } from "react-router-dom";
 import useSummaryStore from "../store/useSummaryStore";
-import VideoCarousel from "../components/VideoCarousel";
-import BowAnimation from "../components/BowAnimation";
-import SearchHeroSection from "../components/SearchHeroSection";
+import VideoCarousel from "../components/Book/VideoCarousel.jsx";
+import BowAnimation from "../components/Book/BowAnimation.jsx";
+import SearchHeroSection from "../components/HeroSections/SearchHeroSection.jsx";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import axios from "axios";

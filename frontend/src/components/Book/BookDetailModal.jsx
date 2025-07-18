@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
-import editIcon from "../assets/edit_icon.svg";
+import editIcon from "../../assets/edit_icon.svg";
 
 const BookDetailModal = ({ book, isOpen, onClose, onUpdateLibrary }) => {
   const [note, setNote] = useState("");
@@ -105,7 +105,7 @@ const BookDetailModal = ({ book, isOpen, onClose, onUpdateLibrary }) => {
         <div id="custom-scroll" className="p-6 overflow-y-auto">
           <button
             onClick={onClose}
-            className="absolute top-4 right-4 text-xl font-bold text-gray-600 hover:text-black cursor-pointer"
+            className="absolute top-4 right-4 text-xl font-bold text-gray-100 hover:text-gray-300 cursor-pointer"
           >
             &times;
           </button>
