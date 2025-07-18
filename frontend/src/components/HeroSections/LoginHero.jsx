@@ -1,15 +1,15 @@
 import { motion } from "framer-motion";
-import SignupBg from "../assets/backgrounds/signup_bg.png";
+import LoginBg from "../../assets/backgrounds/loginPage_bg.jpeg";
 
-const SignupHero = () => {
+const LoginHero = () => {
   return (
     <div className="relative h-screen overflow-hidden flex items-center justify-center">
       <motion.div
         className="absolute inset-0 bg-cover bg-center z-0"
         style={{
-          backgroundImage: `url(${SignupBg})`,
+          backgroundImage: `url(${LoginBg})`,
           backgroundColor: "#f3f4f6", // fallback color
-          backgroundSize: "cover"
+          backgroundSize: "cover",
         }}
         initial={{ scale: 1.2 }}
         animate={{ scale: 1 }}
@@ -19,4 +19,4 @@ const SignupHero = () => {
   );
 };
 
-export default SignupHero;
+export default LoginHero;

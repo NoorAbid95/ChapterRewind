@@ -3,9 +3,9 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import useSummaryStore from "../store/useSummaryStore";
 import { motion } from "framer-motion";
-import LoadingAnimation from "../components/LoadingAnimation";
-import HeroSectionOne from "../components/HomeHeroSectionOne";
-import HeroSectionTwo from "../components/HomeHeroSectionTwo";
+import LoadingAnimation from "../components/Shared/LoadingAnimation";
+import HeroSectionOne from "../components//HeroSections/HomeHeroSectionOne";
+import HeroSectionTwo from "../components/HeroSections/HomeHeroSectionTwo";
 
 const HomePage = ({ setFadeNavItems }) => {
   const navigate = useNavigate();

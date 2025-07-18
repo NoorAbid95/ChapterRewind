@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
-import fantasyLandscape from "../assets/backgrounds/hero2-fantasy-landscape.png";
-import readerSubject from "../assets/backgrounds/hero2-subject.png";
+import fantasyLandscape from "../../assets/backgrounds/hero2-fantasy-landscape.png";
+import readerSubject from "../../assets/backgrounds/hero2-subject.png";
 
 const HeroSectionTwo = () => {
   const [isVisible, setIsVisible] = useState(false);

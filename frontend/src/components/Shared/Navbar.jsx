@@ -1,6 +1,6 @@
-import BookshelfIcon from "../assets/bookshelf-nav.svg?react";
+import BookshelfIcon from "../../assets/bookshelf-nav.svg?react";
 import { useNavigate, useLocation, Link } from "react-router-dom";
-import useAuthStore from "../store/useAuthStore.js";
+import useAuthStore from "../../store/useAuthStore.js";
 import axios from "axios";
 
 const Navbar = ({ fadeNavItems }) => {

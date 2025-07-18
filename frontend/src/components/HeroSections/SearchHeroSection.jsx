@@ -1,17 +1,16 @@
 import { motion } from "framer-motion";
-import LoginBg from "../assets/backgrounds/loginPage_bg.jpeg";
+import darkLibBg from "../../assets/backgrounds/dark-lib.png";
 
-const LoginHero = () => {
+const SearchHeroSection = () => {
   return (
     <div className="relative h-screen overflow-hidden flex items-center justify-center">
       <motion.div
         className="absolute inset-0 bg-cover bg-center z-0"
         style={{
-          backgroundImage: `url(${LoginBg})`,
+          backgroundImage: `url(${darkLibBg})`,
           backgroundColor: "#f3f4f6", // fallback color
-          backgroundSize: "cover",
         }}
-        initial={{ scale: 1.2 }}
+        initial={{ scale: 1.1 }}
         animate={{ scale: 1 }}
         transition={{ duration: 2, ease: "easeOut" }}
       />
@@ -19,4 +18,4 @@ const LoginHero = () => {
   );
 };
 
-export default LoginHero;
+export default SearchHeroSection;

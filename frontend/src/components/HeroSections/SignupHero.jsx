@@ -1,16 +1,17 @@
 import { motion } from "framer-motion";
-import MyLibraryBg from "../assets/backgrounds/myLibrary_bg.jpg";
+import SignupBg from "../../assets/backgrounds/signup_bg.png";
 
-const MyLibraryHero = () => {
+const SignupHero = () => {
   return (
     <div className="relative h-screen overflow-hidden flex items-center justify-center">
       <motion.div
         className="absolute inset-0 bg-cover bg-center z-0"
         style={{
-          backgroundImage: `url(${MyLibraryBg})`,
+          backgroundImage: `url(${SignupBg})`,
           backgroundColor: "#f3f4f6", // fallback color
+          backgroundSize: "cover"
         }}
-        initial={{ scale: 1.1 }}
+        initial={{ scale: 1.2 }}
         animate={{ scale: 1 }}
         transition={{ duration: 2, ease: "easeOut" }}
       />
@@ -18,4 +19,4 @@ const MyLibraryHero = () => {
   );
 };
 
-export default MyLibraryHero;
+export default SignupHero;

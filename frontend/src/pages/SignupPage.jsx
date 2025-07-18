@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
 import { motion } from "framer-motion";
-import SignupHero from "../components/SignupHero";
+import SignupHero from "../components/HeroSections/SignupHero";
 import { EyeOff, Eye, CheckCircle } from "lucide-react";
 import useAuthStore from "../store/useAuthStore.js";
 import castleHome from "../assets/castle-home.svg";

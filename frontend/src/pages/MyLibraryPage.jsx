@@ -1,5 +1,5 @@
-import MyLibraryHero from "../components/MyLibraryHero";
-import BookDetailModal from "../components/BookDetailModal";
+import MyLibraryHero from "../components/HeroSections/MyLibraryHero.jsx";
+import BookDetailModal from "../components/Book/BookDetailModal.jsx";
 import { useState, useEffect } from "react";
 import castleHome from "../assets/castle-home.svg";
 import axios from "axios";
@@ -99,9 +99,7 @@ const MyLibraryPage = () => {
                 </div>
                 <div className="flex flex-col justify-center items-center mt-50">
                   <Link to={"/"}>
-                    <span className="text-xs text-white font-extralight">
-                      HOME
-                    </span>
+                    <span className="text-xs text-white font-extralight mb-1 ml-1">HOME</span>
                     <img
                       src={castleHome}
                       alt="Home button"

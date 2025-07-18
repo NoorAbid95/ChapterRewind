@@ -3,7 +3,7 @@ import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
 import { motion } from "framer-motion";
 import { EyeOff, Eye, CheckCircle } from "lucide-react";
-import LoginHero from "../components/LoginHero";
+import LoginHero from "../components/HeroSections/LoginHero";
 import useAuthStore from "../store/useAuthStore.js";
 import castleHome from "../assets/castle-home.svg";
 
