@@ -1,7 +1,7 @@
 export const sendSuccess = (
   res,
   data = {},
-  message = "Sucess",
+  message = "Success",
   status = 200
 ) => {
   return res.status(status).json({
