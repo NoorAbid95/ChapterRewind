@@ -30,6 +30,7 @@ const LoadingAnimation = ({ playing = false }) => {
     <div
       ref={container}
       className="w-[50px] h-[80px] "
+      data-testid='lottie-container'
     />
   );
 };
