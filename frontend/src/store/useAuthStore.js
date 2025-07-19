@@ -5,7 +5,7 @@ const useAuthStore = create((set, get) => ({
   loading: null,
   isAuthenticated: () => !!get().user,
   setUser: (userData) => set({ user: userData }),
-  setLoading: (value) => set({ isLoading: false }),
+  setLoading: (value) => set({ isLoading: value }),
   clearUser: () => set({ user: null }),
 }));
 
