@@ -30,12 +30,14 @@ const VideoCarousel = ({ videos }) => {
     <>
       <div className="absolute  mt-70 inset-20 flex justify-between items-center pointer-events-none ">
         <button
+          aria-label="Previous Slide"
           onClick={prevSlide}
           className="p-2 rounded-full border border-white/20 shadow-md shadow-[#5E402D] hover:shadow-lg hover:shadow-[#5E1A1D]/70 hover:scale-102 bg-black/40 text-white transition pointer-events-auto cursor-pointer  active:scale-92"
         >
           <HiOutlineArrowSmallLeft size={24} />
         </button>
         <button
+          aria-label="Next Slide"
           onClick={nextSlide}
           className="p-2 rounded-full border border-white/20 shadow-md shadow-[#5E402D] hover:shadow-lg hover:shadow-[#5E1A1D]/70 hover:scale-102 bg-black/40 text-white transition pointer-events-auto cursor-pointer active:scale-92"
         >
@@ -93,6 +95,7 @@ const VideoCarousel = ({ videos }) => {
         <div className="flex justify-center mt-3 gap-1">
           {videos.map((_, index) => (
             <BsDot
+              data-testid="dot"
               key={index}
               onClick={() => setCurrentIndex(index)}
               className={`mt-3 cursor-pointer text-2xl text-shadow ${
