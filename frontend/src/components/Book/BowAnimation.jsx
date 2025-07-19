@@ -35,6 +35,7 @@ const BowAnimation = () => {
   return (
     <div
       ref={container}
+      role="presentation"
       className="w-[140px] cursor-pointer scale-x-[-1] scale-100"
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
