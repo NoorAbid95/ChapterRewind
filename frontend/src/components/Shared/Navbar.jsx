@@ -5,7 +5,7 @@ import axios from "axios";
 
 const Navbar = ({ fadeNavItems }) => {
   const { user, clearUser } = useAuthStore();
-  console.log("Auth store user nav:", user);
+
   const location = useLocation();
   const navigate = useNavigate();
   const isOurStory = location.pathname === "/ourStory";

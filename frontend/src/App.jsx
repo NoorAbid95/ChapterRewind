@@ -30,7 +30,6 @@ function App() {
     };
     checkAuth();
   }, []);
-  console.log("Auth store user:", useAuthStore.getState().user);
   return (
     <>
       <Navbar fadeNavItems={fadeNavItems} />

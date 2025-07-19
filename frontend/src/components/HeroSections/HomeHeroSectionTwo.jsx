@@ -66,7 +66,6 @@ const HeroSectionTwo = () => {
         animate={isVisible ? { scale: 1.1 } : { scale: 1 }}
         transition={{ duration: 1 }}
         onError={handleImageError}
-        onLoad={() => console.log("Reader image loaded successfully")}
       />
     </div>
   );
