@@ -2,7 +2,7 @@ import MyLibraryHero from "../components/HeroSections/MyLibraryHero.jsx";
 import BookDetailModal from "../components/Book/BookDetailModal.jsx";
 import { useState, useEffect } from "react";
 import castleHome from "../assets/castle-home.svg";
-import axios from "axios";
+import axios from "../utils/axios.js";
 import { Link, useNavigate } from "react-router-dom";
 import useAuthStore from "../store/useAuthStore.js";
 
@@ -16,7 +16,7 @@ const MyLibraryPage = () => {
   const fetchLibrary = async () => {
     try {
       const response = await axios.get(
-        "http://localhost:3000/api/books/mylibrary",
+        "/books/mylibrary",
         {
           withCredentials: true,
         }
