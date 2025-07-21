@@ -5,7 +5,7 @@ import BowAnimation from "../components/Book/BowAnimation.jsx";
 import SearchHeroSection from "../components/HeroSections/SearchHeroSection.jsx";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
-import axios from "axios";
+import axios from "../utils/axios.js"
 import useAuthStore from "../store/useAuthStore.js";
 
 const SearchPage = ({ setFadeNavItems }) => {
@@ -45,7 +45,7 @@ const SearchPage = ({ setFadeNavItems }) => {
     const fetchLibrary = async () => {
       try {
         const res = await axios.get(
-          "http://localhost:3000/api/books/mylibrary",
+          "/books/mylibrary",
           {
             withCredentials: true,
           }

@@ -1,7 +1,7 @@
 import BookshelfIcon from "../../assets/bookshelf-nav.svg?react";
 import { useNavigate, useLocation, Link } from "react-router-dom";
 import useAuthStore from "../../store/useAuthStore.js";
-import axios from "axios";
+import axios from "../../utils/axios.js";
 
 const Navbar = ({ fadeNavItems }) => {
   const { user, clearUser } = useAuthStore();
@@ -27,7 +27,7 @@ const Navbar = ({ fadeNavItems }) => {
   const handleLogout = async () => {
     try {
       await axios.post(
-        "http://localhost:3000/api/auth/logout",
+        "/auth/logout",
         {},
         { withCredentials: true }
       );

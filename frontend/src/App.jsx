@@ -9,6 +9,7 @@ import LoginPage from "./pages/LoginPage";
 import MyLibraryPage from "./pages/MyLibraryPage";
 import useAuthStore from "./store/useAuthStore";
 import { ToastContainer } from "react-toastify";
+import axios from "./utils/axios.js"
 
 function App() {
   const [fadeNavItems, setFadeNavItems] = useState(false);
@@ -18,7 +19,7 @@ function App() {
     const checkAuth = async () => {
       setLoading(true);
       try {
-        const res = await axios.get("http://localhost:3000/api/auth/check", {
+        const res = await axios.get("/auth/check", {
           withCredentials: true,
         });
         setUser(res.data.user);

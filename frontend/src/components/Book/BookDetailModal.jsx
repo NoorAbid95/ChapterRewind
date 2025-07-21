@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import axios from "axios";
+import axios from "../../utils/axios.js";
 import { toast } from "react-toastify";
 import editIcon from "../../assets/edit_icon.svg";
 
@@ -26,7 +26,7 @@ const BookDetailModal = ({ book, isOpen, onClose, onUpdateLibrary }) => {
     const fetchNote = async () => {
       try {
         const res = await axios.get(
-          `http://localhost:3000/api/books/mylibrary/${book._id}/notes`,
+          `/books/mylibrary/${book._id}/notes`,
           { withCredentials: true }
         );
         const fetchedNote = res.data.data || "";
@@ -45,7 +45,7 @@ const BookDetailModal = ({ book, isOpen, onClose, onUpdateLibrary }) => {
     try {
       const method = originalNote.trim() ? "patch" : "post";
       await axios[method](
-        `http://localhost:3000/api/books/mylibrary/${book._id}/notes`,
+        `/books/mylibrary/${book._id}/notes`,
         { note },
         { withCredentials: true }
       );
@@ -61,7 +61,7 @@ const BookDetailModal = ({ book, isOpen, onClose, onUpdateLibrary }) => {
   const deleteNote = async () => {
     try {
       await axios.delete(
-        `http://localhost:3000/api/books/mylibrary/${book._id}/notes`,
+        `/books/mylibrary/${book._id}/notes`,
         { withCredentials: true }
       );
       setNote("");
@@ -77,7 +77,7 @@ const BookDetailModal = ({ book, isOpen, onClose, onUpdateLibrary }) => {
   const deleteBook = async () => {
     try {
       await axios.delete(
-        `http://localhost:3000/api/books/mylibrary/${book._id}`,
+        `/books/mylibrary/${book._id}`,
         { withCredentials: true }
       );
 

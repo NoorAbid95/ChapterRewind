@@ -194,8 +194,6 @@ export const getLibrary = async (req, res) => {
 
 export const getNote = async (req, res) => {
   try {
-    console.log("User id:", req.user._id);
-    console.log("Book id:", req.params.bookId);
     const user = await User.findById(req.user._id);
     const book = user.library.id(req.params.bookId);
     if (!book) return sendError(res, "Book not found", 404);

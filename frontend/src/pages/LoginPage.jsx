@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import axios from "axios";
+import axios from "../utils/axios.js";
 import { motion } from "framer-motion";
 import { EyeOff, Eye, CheckCircle } from "lucide-react";
 import LoginHero from "../components/HeroSections/LoginHero";
@@ -54,7 +54,7 @@ const LoginPage = () => {
 
     try {
       const res = await axios.post(
-        "http://localhost:3000/api/auth/login",
+        "/auth/login",
         formData,
         {
           withCredentials: true,

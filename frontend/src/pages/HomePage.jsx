@@ -1,10 +1,10 @@
 import { useState, useEffect, useRef } from "react";
-import axios from "axios";
+import axios from "../utils/axios.js";
 import { useNavigate } from "react-router-dom";
 import useSummaryStore from "../store/useSummaryStore";
 import { motion } from "framer-motion";
 import LoadingAnimation from "../components/Shared/LoadingAnimation";
-import HeroSectionOne from "../components//HeroSections/HomeHeroSectionOne";
+import HeroSectionOne from "../components/HeroSections/HomeHeroSectionOne";
 import HeroSectionTwo from "../components/HeroSections/HomeHeroSectionTwo";
 
 const HomePage = ({ setFadeNavItems }) => {
@@ -26,8 +26,8 @@ const HomePage = ({ setFadeNavItems }) => {
 
     try {
       const [summaryRes, videoRes] = await Promise.all([
-        axios.post("http://localhost:3000/api/books/openai-summary", formData),
-        axios.post("http://localhost:3000/api/books/youtube-recaps", formData),
+        axios.post("/books/openai-summary", formData),
+        axios.post("/books/youtube-recaps", formData),
       ]);
 
       setSummary(summaryRes.data.data.summary);
