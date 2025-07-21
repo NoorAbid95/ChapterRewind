@@ -1,55 +1,72 @@
 # ChapterRewind 
-A reading companion web app designed for book lovers who need a quick refresher before diving back into a story. 
-Whether you've taken a break between books in the series or just want a quick summary before the sequel drops, ChapterRewind helps you catch up with AI-powered summaries and video recaps — all in one place.
+
+**ChapterRewind** is a reading companion web app for fantasy and fiction lovers. It helps users recap previous books in a series using AI-generated summaries, curated YouTube video explanations, and personalised notes — so you can jump back into the next book without rereading everything.
+
+##  Live Demo
+
+🔗 [Visit the deployed app](https://chapterrewind.onrender.com/)  
 
 ---
 
-## Features (Current)
+## Features
 
-- **Book Recap Search**
-  - Fetches AI-generated synopses using the OpenAI API
-  - Retrieves relevant YouTube video recaps with YouTube Data API
-
-- **Tech Stack**
-  - **Frontend:** React + Tailwind CSS
-  - **Backend:** Node.js + Express
-  - **HTTP Requests:** Axios
-  - **Data:** OpenAI & YouTube APIs
+- **Search any book** by title and author.
+- **AI-powered summary** using OpenAI.
+- **Video carousel** of YouTube recaps.
+- **Personalized library** to save books you've read.
+- **Write and edit personal notes** for each saved book.
+- **Fallback covers** generated with placeholder titles.
+- **Authentication** (signup/login/logout) for user-specific libraries.
 
 ---
 
-## In Progress: User Authentication
+## Tech Stack
 
-- User **signup/login** via email & password
-- JWT-based auth with secure HTTP-only cookies
-- Auth routes protected via middleware
-- MongoDB via Mongoose for storing user data
+### Frontend
+- **React** with Vite
+- **Tailwind CSS**
+- **Framer Motion** (animations)
+- **Zustand** (state management)
+- **React Router**
+- **Axios** (centralized API handler)
+
+### Backend
+- **Node.js + Express**
+- **MongoDB** (via Mongoose)
+- **OpenAI API** (summaries)
+- **Google Books API** (metadata)
+- **YouTube Data API** (recap videos)
+- ** Fetches book covers using the bookcover-api (https://github.com/w3slley/bookcover-api).
+- **JWT Authentication**
 
 ---
 
-## Planned Features (Coming Soon)
+## Deployment
 
-- **My Library**
-  - Logged-in users can save books they’ve searched
-  - Book covers fetched from the Google Books API
-  - Users can add and save personal notes for each title
+Deployed via **Render.com** with the following setup:
 
----
+### Build and Start Scripts (root `package.json`)
+```json
+"scripts": {
+  "build": "npm install --prefix backend && npm install --prefix frontend && npm run build --prefix frontend",
+  "start": "npm run start --prefix backend"
+}
+```
+--- 
 
-## Installation
+## Testing
 
-# Clone the repo
-git clone https://github.com/yourusername/chapterrewind.git
-cd chapterrewind
-
-# Install backend dependencies
-cd backend
-npm install
-
-# Install frontend dependencies
-cd ../frontend
-npm install
+- Vitest + React Testing Library for frontend components and Zustand stores
+- Vitest for backend unit tests (controllers, middleware, utils)
 
 --- 
+
+## Future Enhancements
+
+- Optimise application for mobile
+
+---
+
 ## Author 
+
 Noor Abid
