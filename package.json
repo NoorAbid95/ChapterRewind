@@ -1,0 +1,22 @@
+{
+  "name": "chapterrewind",
+  "version": "1.0.0",
+  "description": "A reading companion web app designed for book lovers who need a quick refresher before diving back into a story. \r Whether you've taken a break between books in the series or just want a quick summary before the sequel drops, ChapterRewind helps you catch up with AI-powered summaries and video recaps — all in one place.",
+  "main": "index.js",
+  "devDependencies": {},
+  "scripts": {
+    "build": "npm install --prefix backend && npm install --prefix frontend && npm run build --prefix frontend",
+    "start": "npm run start --prefix backend"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NoorAbid95/ChapterRewind.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/NoorAbid95/ChapterRewind/issues"
+  },
+  "homepage": "https://github.com/NoorAbid95/ChapterRewind#readme"
+}

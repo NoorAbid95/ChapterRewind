@@ -24,7 +24,6 @@ const SignupPage = () => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
 
-    // Clear error for field when user starts typing
     if (errors[name]) {
       setErrors({ ...errors, [name]: "" });
     }
@@ -59,10 +58,17 @@ const SignupPage = () => {
           withCredentials: true,
         }
       );
+
       setUser(res.data.data);
       setSignupSuccess(true);
+      setErrors({});
     } catch (err) {
       console.error("Signup failed", err);
+
+      const backendMessage =
+        err.response?.data?.message || "Signup failed. Please try again.";
+
+      setErrors({ email: backendMessage });
     }
   };
 
